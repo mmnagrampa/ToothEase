@@ -99,6 +99,18 @@ body {
     cursor: pointer;
 }
 
+#staffbtn {
+    background-color: #fff;
+    color: black;
+    padding: 10px 45px;
+    border: 1px solid #333;
+    border-radius: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-top: 10px;
+    cursor: pointer;
+}
 
 .container button.hidden {
     background-color: transparent;
