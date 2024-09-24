@@ -3,6 +3,7 @@ const registerbtn = document.getElementById('register');
 const loginbtn = document.getElementById('login');
 const patient = document.getElementById('patientbtn');
 const staffbtn = document.getElementById('staffbtn');
+const forgotPass = document.getElementById('forgot-password');
 
 let patientHover = true;
 let staffHover = false;
@@ -10,7 +11,7 @@ let staffHover = false;
 document.addEventListener("DOMContentLoaded", function() {
 
     const passwordHide = document.getElementById("passwordHide");
-    const passwordField = document.getElementById("password");
+    const passwordField = document.getElementById("signin-password");
 
     passwordHide.addEventListener("click", function() {
 
@@ -53,13 +54,21 @@ staffbtn.addEventListener("click", ()=> {
     patient.style.borderColor = "black";
 });
 
+forgotPass.addEventListener('click', () => {
+    window.location.href = 'forgotpass.html';
+})
+
 function check() {
-    const password = document.getElementById('signUpPassword').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
+    const password = document.getElementById('signup-password').value;
+    const confirmPassword = document.getElementById('confirm-password').value;
     const message = document.getElementById('message');
 
     if (password === "" || confirmPassword === "") {
         message.hidden = true;
+    } else if (password.length < 6) {
+        message.hidden = false;
+        message.style.color = 'red';
+        message.innerHTML = 'Password must be at least 6 characters';
     } else if (password === confirmPassword) {
         message.hidden = false;
         message.style.color = 'green';
@@ -71,5 +80,5 @@ function check() {
     }
 }
 
-document.getElementById('signUpPassword').addEventListener('input', check);
-document.getElementById('confirmPassword').addEventListener('input', check);
+document.getElementById('signup-password').addEventListener('input', check);
+document.getElementById('confirm-password').addEventListener('input', check);

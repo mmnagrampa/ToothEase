@@ -1,6 +1,23 @@
 {
   "hosting": {
     "public": "ToothEase",
+    "header": [
+      {
+        "source": "**/*.html",
+        "headers": [
+          {
+            "key": "Permissions-Policy",
+            "value": "geolocation=(self), microphone=()"
+          }
+        ]
+      }
+    ],
+    "rewrite": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ],
     "ignore": [
       "firebase.json",
       "**/.*",
