@@ -1,6 +1,6 @@
 const images = [
     {
-        url: './pics/dental-aesthetics.jpg',
+        url: '../img/dental-aesthetics.jpg',
         label: 'Dental Aesthetics Center',
         status: 'Open / Closed',
         title: 'Dental Aesthetics Center',
@@ -13,7 +13,7 @@ const images = [
         sunday: 'CLOSED',
     },
     {
-        url: './pics/city-smiles.jpg',
+        url: '../img/city-smiles.jpg',
         label: 'City Smiles Dental Clinic',
         status: 'Open / Closed',
         title: 'City Smiles Dental Clinic',
@@ -26,7 +26,7 @@ const images = [
         sunday: 'CLOSED',
     },
     {
-        url: './pics/respall-dental.jpg',
+        url: '../img/respall-dental.jpg',
         label: 'Respall Dental Clinic',
         status: 'Open / Closed',
         title: 'Respall Dental Clinic',
