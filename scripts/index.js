@@ -55,7 +55,7 @@ staffbtn.addEventListener("click", ()=> {
 });
 
 forgotPass.addEventListener('click', () => {
-    window.location.href = '../views/forgotpass.html';
+    window.location.href = '../forgotpass.html';
 })
 
 function check() {
