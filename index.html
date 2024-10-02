@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Login | ToothEase</title>
+        <link rel="shortcut icon" type="x-icon" href="./img/logo.png" sizes="64x64">
+        <link rel="stylesheet" href="./styles/login-style.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    </head>
+    <body>
+        <div class="logo">
+            <img src="./img/logo.png">
+            <a href="#" class="name">ToothEase</a>
+        </div>
+
+        <div class="container" id="container">
+            <!--SIGN UP-->
+            <div class="sign-up"> 
+                <form id="signup-form">
+                    <h1>Create Account</h1>
+                    <input type="text" placeholder="Name" id="signup-name" required>
+                    <input type="text" placeholder="Email" id="signup-email" required>
+                    <span id="check-email"></span>
+                    <input type="password" placeholder="Password" id="signup-password" onkeyup='check()' required>
+                    <input type="password" placeholder="Confirm Password" id="confirm-password" onkeyup='check()' required>
+                    <span id="message"></span>
+                    <input type="text" value="staff" style="display: none;">
+                    <button type="submit" id="signUp">SIGN UP</button>
+                </form>
+            </div>
+            
+            <!--SIGN IN-->
+            <div class="sign-in">
+                <form id="signin-form">
+                    <h1>Sign In</h1>
+                    <input type="text" placeholder="Email" id='signin-email' required>
+                    <input type="password" placeholder="Password" id="signin-password" required>
+                    <i class='bx bxs-hide' id="passwordHide"></i>
+                    <span id="error-message"></span>                   
+                    <a href="#" id="forgot-password">Forgot Password</a>
+                    <button type="submit" id="signIn">SIGN IN</button>
+                </form>
+            </div>
+            <div class="toggle-container">
+                <div class="toggle">
+                    <div class="toggle-panel toggle-left">
+                        <h1>Welcome User</h1>
+                        <p>If you already have an account</p>
+                        <button class="hidden" id="login">SIGN IN</button>
+                    </div>
+                    <div class="toggle-panel toggle-right">
+                        <h1>Hello, User!</h1>
+                        <p>If you don't have an account</p>
+                        <button class="hidden" id="register">SIGN UP</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type='module' src="./scripts/firebaseauth.js"></script>
+        <script src='./scripts/index.js'></script>
+    </body>
+</html>

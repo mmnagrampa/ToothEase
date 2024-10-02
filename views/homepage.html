@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Home | ToothEase</title>
+            <link rel="stylesheet" href="../styles/home.css">
+            <link rel="stylesheet" href="../styles/nav-bar.css">
+            <link rel="shortcut icon" type="x-icon" href="../img/logo.png" sizes="64x64">
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+            <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    </head>
+    <body>
+        <header>
+            <div class="logo-container">
+                <img src="../img/logo.png" class="logo-img" alt="ToothEase Logo">
+                <a href="#" class="brand-name">ToothEase</a>
+            </div>
+            
+            <nav>
+                <a href="homepage.html" class="active">Home</a>
+                <a href="appointment.html">Appointments</a>
+                <a href="clinics.html">Clinics</a>
+                <a href="about-us.html">About Us</a>
+                <a href="contact.html">Contact</a>
+                <a href="appointment.html" class="booknow">BOOK NOW</a>
+                <div class="separator"></div>
+                
+                <!-- Profile dropdown container -->
+                <div class="profile-container">
+                    <i class="fa-solid fa-user profile-icon"></i>
+                    <div class="profile-dropdown" id="subMenu">
+                        <a href="#" id="logout">Logout</a>
+                    </div>
+                </div>
+            </nav>
+            
+        </header>
+
+        <!-- WELCOME DEETS -->
+        <section id="welcome" class="section">
+            <div class="Welcome-deets">
+                <h1>Discover clinics, explore services, <br>and book appointments easily!</h1>
+                <p>Explore top clinics, view their services, and <br> book your appointments all in one place.</p>
+                <button id="bookAppoint"><a href="/APPOINTMENT PAGE/patient-appointments.html">Book Appointment Now</a></button>
+                <button id="aboutUs"><a href="/ABOUT PAGE/patient-aboutpage.html">About Us</a></button>
+            </div>
+
+            <div class="clinic-pic">
+                <img src="../img/clinic.png">
+            </div>
+        </section>
+    
+        <!-- APPOINTMENT DEETS -->
+        <section id="appointments" class="section">
+            <div class="appointment-pic">
+                <img src="../img/appointmentt.png">
+            </div>
+
+            <div class="appoint-deets">
+                <span>Appointments</span>
+                <h1>Manage your dental<br>appointments with<br>confidence &mdash; anytime,<br> anywhere!</h1>
+                <p>Effortlessly view, reschedule, or cancel your<br> dental appointments online!</p>
+                <div class="appointment-btn">
+                    <button><a href="patient-appointments.html">Check Your Appointments</a></button>
+                </div>
+            </div>
+        </section>
+    
+        <!-- CLINIC DEETS -->
+        <section id="clinics" class="section">
+            <div class="clinic-deets">
+                <span>Clinics</span>
+                <h1>Find Your Perfect Dental Care</h1>
+                <p>Find the right dental care near you. Browse our directory<br> and book your appointment in just a few clicks.</p>
+            </div>
+            <div class="clinic-pics">
+                <div id="image-container"></div>
+
+                <!-- Modal structure -->
+                <div id="myModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <div class="title-container">
+                            <h1 id="modal-title"></h1>
+                        </div>
+                        <div class="upper-div">
+                            <img id="modal-image" src="">
+                            <div class="content-container">
+                                <div class="open-close" id="open-close"></div>
+                                <div class="hours">
+                                    <i class="fa-solid fa-clock" style="color: #8d8d8d;"></i>
+                                    <p>Hours</p>
+                                </div>
+                                <div class="days-container">
+                                    <div class="day">
+                                        <span class="day-name">Monday</span>
+                                        <span id="Monday" class="time" ></span>
+                                    </div>
+                                    <div class="day">
+                                        <span class="day-name">Tuesday</span>
+                                        <span id="Tuesday" class="time" ></span>
+                                    </div>
+                                    <div class="day">
+                                        <span class="day-name">Wednesday</span>
+                                        <span id="Wednesday" class="time" ></span>
+                                    </div>
+                                    <div class="day">
+                                        <span class="day-name">Thursday</span>
+                                        <span id="Thursday" class="time" ></span>
+                                    </div>
+                                    <div class="day">
+                                        <span class="day-name">Friday</span>
+                                        <span id="Friday" class="time" ></span>
+                                    </div>
+                                    <div class="day">
+                                        <span class="day-name">Saturday</span>
+                                        <span id="Saturday" class="time" ></span>
+                                    </div>
+                                    <div class="day">
+                                        <span class="day-name">Sunday</span>
+                                        <span id="Sunday" class="time" ></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="location" id="location"></div>
+                        <div class="modal-description" id="modal-description"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="clinic-btn">
+                <button><a href="patient-clinicspage.html">View More</a></button>
+            </div>
+        </section>
+    
+        <!-- ABOUT US DEETS -->
+        <section id="about" class="section">
+            <div class="about-deets">
+                <span>About Us</span>
+                <h1>Discover how we’re revolutionizing<br> dental care in our place!</h1>
+                <p>Find out how we’re making dental care simpler<br> and more accessible for everyone!</p>
+            </div>
+            <div class="about-pic">
+                <img src="../img/about-us.jpg">
+            </div>
+            <div class="about-btn">
+                <button><a href="patient-aboutpage.html">About Our Website</a></button>
+            </div>
+        </section>
+    
+        <!-- CONTACT DEETS -->
+        <section id="contact" class="section">
+            <div class="contact-content">
+                <span>Contact Us</span>
+                <h1>Need Assistance? Contact Us<br> and Let’s Connect!</h1>
+                <p>Reach out to us for any inquiries or support. We're<br> here to help you every step of the way!</p>
+                <div class="contact-deets">
+                    <div class="phone-icon">
+                        <i class="fa-solid fa-phone"></i>
+                        <label>0912-345-6789</label>
+                    </div>
+                    <div class="email-icon">
+                        <i class="fa-solid fa-envelope"></i>
+                        <label>toothease@gmail.com</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!--SUBMIT FORM-->
+            <form class="contact-container">
+                <div class="upper-deets">
+                    <div class="name">
+                        <p>Name</p>
+                        <input type="text" name="name" id="name" placeholder="Full Name" required>
+                    </div>
+                    <div class="email">
+                        <p>Email Address</p>
+                        <input type="text" name="email" id="email" placeholder="Email" required>
+                    </div>
+                </div>
+                <div class="lower-deets">
+                    <div class="phone-num">
+                        <p>Phone Number</p>
+                        <input type="tel" name="phone" id="phone" pattern="((\+[0-9]{2})|0)[.\- ]?9[0-9]{2}[.\- ]?[0-9]{3}[.\- ]?[0-9]{4}" placeholder="+63-000-000-0000" required>
+                    </div>
+                    <div class="subject">
+                        <p>Subject</p>
+                        <input type="text" name="subject" id="subject" placeholder="Subject" required>
+                    </div>
+                </div>
+                <div class="msg">
+                    <p>Message</p>
+                    <textarea name="message" id="message" required></textarea>
+                </div>
+                <div class="submit-btn">
+                    <button id="submit">Submit</button>
+                </div>
+            </form>
+        </section>
+        
+        <!-- FOOTER DEETS -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <div class="footer-logo">
+                        <img src="../img/logo.png" alt="Logo">
+                    </div>
+                    <h1>ToothEase</h1>
+                    <a href="https://www.facebook.com/"><i class='bx bxl-facebook-circle'></i></a>
+                    <a href="https://www.instagram.com/"><i class='bx bxl-instagram'></i></a>
+                    <a href="https://www.x.com/"><i class="fa-brands fa-x-twitter"></i></a>
+                </div>
+                <div class="footer-credits">
+                    <p>&copy;ToothEase. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+        <script type='module' src="../scripts/nav-auth.js"></script>
+        <script src="../scripts/nav-bar.js"></script>
+        <script src="../scripts/home.js"></script>
+    </body>
+</html>
