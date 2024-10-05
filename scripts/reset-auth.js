@@ -20,7 +20,7 @@ const urlParams = new URLSearchParams(window.location.search);
 const oobCode = urlParams.get('oobCode');
 console.log("oobCode:", oobCode);
 
-verifyPasswordResetCode(oobCode)
+verifyPasswordResetCode(auth, oobCode)
     .then((email) => {
         console.log("Valid code for email:", email);
     })
