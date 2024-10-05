@@ -65,7 +65,7 @@
                 <h1>Manage your dental<br>appointments with<br>confidence &mdash; anytime,<br> anywhere!</h1>
                 <p>Effortlessly view, reschedule, or cancel your<br> dental appointments online!</p>
                 <div class="appointment-btn">
-                    <button><a href="patient-appointments.html">Check Your Appointments</a></button>
+                    <button><a href="/APPOINTMENT PAGE/patient-appointments.html">Check Your Appointments</a></button>
                 </div>
             </div>
         </section>
@@ -77,63 +77,74 @@
                 <h1>Find Your Perfect Dental Care</h1>
                 <p>Find the right dental care near you. Browse our directory<br> and book your appointment in just a few clicks.</p>
             </div>
-            <div class="clinic-pics">
-                <div id="image-container"></div>
+            
+            <div class="container-clinics">
 
-                <!-- Modal structure -->
-                <div id="myModal" class="modal">
+                <!-- CLINIC 1-->
+                <div class="clinic" onclick="showModal('clinic1')">
+                    <img src="../img/dental-aesthetics.jpg" alt="Clinic 1">
+                    <h3>Dental Aesthetics</h3>
+                </div>
+                
+                <!-- CLINIC 2-->
+                <div class="clinic" onclick="showModal('clinic2')">
+                    <img src="../img/city-smiles.jpg" alt="Clinic 2">
+                    <h3>City Smiles</h3>
+                </div>
+
+                <!-- CLINIC 3-->
+                <div class="clinic" onclick="showModal('clinic3')">
+                    <img src="../img/respall-dental.jpg" alt="Clinic 3">
+                    <h3>Respall Dental Clinic</h3>
+                </div>
+
+                <!-- Modal Structure -->
+                <div id="modal">
                     <div class="modal-content">
-                        <span class="close">&times;</span>
-                        <div class="title-container">
-                            <h1 id="modal-title"></h1>
+                        <span class="close" onclick="closeModal()">&times;</span>
+                        <div class="modal-title">
+                            <h2 id="clinic-name"></h2>
                         </div>
-                        <div class="upper-div">
-                            <img id="modal-image" src="">
-                            <div class="content-container">
-                                <div class="open-close" id="open-close"></div>
-                                <div class="hours">
+                        <div id="status"></div>
+
+                        <!--IMAGE AND SCHEDULE-->
+                        <div class="hour-status">
+                            <div class="pic-clinic">
+                                <img id="clinic-image" src="" alt="Clinic Image">
+                            </div>
+                            <div class="sched-logo">
+                                <div class="logo-hours">
                                     <i class="fa-solid fa-clock" style="color: #8d8d8d;"></i>
                                     <p>Hours</p>
                                 </div>
-                                <div class="days-container">
-                                    <div class="day">
-                                        <span class="day-name">Monday</span>
-                                        <span id="Monday" class="time" ></span>
-                                    </div>
-                                    <div class="day">
-                                        <span class="day-name">Tuesday</span>
-                                        <span id="Tuesday" class="time" ></span>
-                                    </div>
-                                    <div class="day">
-                                        <span class="day-name">Wednesday</span>
-                                        <span id="Wednesday" class="time" ></span>
-                                    </div>
-                                    <div class="day">
-                                        <span class="day-name">Thursday</span>
-                                        <span id="Thursday" class="time" ></span>
-                                    </div>
-                                    <div class="day">
-                                        <span class="day-name">Friday</span>
-                                        <span id="Friday" class="time" ></span>
-                                    </div>
-                                    <div class="day">
-                                        <span class="day-name">Saturday</span>
-                                        <span id="Saturday" class="time" ></span>
-                                    </div>
-                                    <div class="day">
-                                        <span class="day-name">Sunday</span>
-                                        <span id="Sunday" class="time" ></span>
-                                    </div>
-                                </div>
+                                <div id="schedule"></div>
                             </div>
                         </div>
-                        <div class="location" id="location"></div>
-                        <div class="modal-description" id="modal-description"></div>
+                        
+                        <div class="dentist-services">
+                            <div id="dentists"></div>
+                            <div class="separator2"></div>
+                            <div id="services"></div>
+                        </div>
+
+                        <div class="contact-clinics">
+                            <div class="loc-container">
+                                <div id="location"></div>
+                            </div>
+                            <div class="fb-container">
+                                <div id="facebook"></div>
+                            </div>
+                            <div class="email-container">
+                                <div id="email"></div>
+                            </div>
+                            
+                        </div>
                     </div>
                 </div>
             </div>
+
             <div class="clinic-btn">
-                <button><a href="patient-clinicspage.html">View More</a></button>
+                <button><a href="/CLINICS PAGE/patient-clinicspage.html">View More</a></button>
             </div>
         </section>
     
@@ -148,7 +159,7 @@
                 <img src="../img/about-us.jpg">
             </div>
             <div class="about-btn">
-                <button><a href="patient-aboutpage.html">About Our Website</a></button>
+                <button><a href="/ABOUT PAGE/patient-aboutpage.html">About Our Website</a></button>
             </div>
         </section>
     
