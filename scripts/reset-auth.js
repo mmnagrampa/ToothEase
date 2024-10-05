@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-analytics.js";
-import { getAuth, confirmPasswordReset, verifyPasswordResetCode } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
+import { getAuth, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyC9gZqAF4RoCt1MOJNIYXmGo4FPWf7032U",
@@ -12,42 +12,38 @@ const firebaseConfig = {
     measurementId: "G-F3HRFTH29X"
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth(app);
 
-const urlParams = new URLSearchParams(window.location.search);
-const oobCode = urlParams.get('oobCode');
-console.log("oobCode:", oobCode);
+// Wait for the DOM to load
+document.addEventListener('DOMContentLoaded', () => {
+    const forgotPass = document.getElementById('submit');
+    const errorMessage = document.getElementById('error-message');
 
-verifyPasswordResetCode(auth, oobCode)
-    .then((email) => {
-        console.log("Valid code for email:", email);
-    })
-    .catch((error) => {
-        console.error("Error verifying code:", error);
+    forgotPass.addEventListener('click', (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        
+        sendPasswordResetEmail(auth, email)
+            .then(() => {
+                alert('An email has been sent to reset your password.');
+                window.location.href = '../index.html';
+            })
+            .catch((error) => {
+                const eCode = error.code;
+                errorMessage.hidden = false;
+                errorMessage.style.color = 'red';
+
+                // Handle different error codes
+                if (eCode === 'auth/invalid-email') {
+                    errorMessage.innerHTML = 'Email is invalid, please try again!';
+                } else if (eCode === 'auth/user-not-found') {
+                    errorMessage.innerHTML = 'No user found with this email address.';
+                } else {
+                    errorMessage.innerHTML = 'An error occurred. Please try again later.';
+                }
+            });
     });
-
-function validate(event) {
-    const password = document.getElementById('signup-password').value;
-    const confirmPassword = document.getElementById('confirm-password').value;
-    if (password != confirmPassword) 
-        event.preventDefault();
-}
-
-const resetSubmit = document.getElementById('submit');
-resetSubmit.addEventListener('click', (e) => {
-    e.preventDefault();
-    validate();
-    const newPassword = document.getElementById('signup-password').value;
-
-    confirmPasswordReset(oobCode, newPassword)
-        .then(() => {
-            alert("Password has been reset successfully!");
-            windows.location.href = '../index.html';
-        })
-        .catch((error) => {
-            console.error("Error resetting password:", error);
-            alert("Error resetting password: ", + error.message);
-        });
 });
