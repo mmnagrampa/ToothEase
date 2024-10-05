@@ -38,7 +38,7 @@ signupForm.addEventListener('submit', (e) => {
         .then((userCredential) => {
             const user = userCredential.user;
             alert('Account created successfully!');
-            window.location.href = './views/homepage.html';
+            window.location.href = './index.html';
         })
         .catch((error) => {
             const eCode = error.code;
