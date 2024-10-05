@@ -1,107 +1,213 @@
-const images = [
-    {
-        url: '../img/dental-aesthetics.jpg',
-        label: 'Dental Aesthetics Center',
-        status: 'Open / Closed',
-        title: 'Dental Aesthetics Center',
-        monday: '12:00 PM - 4:00 PM',
-        tuesday: '12:00 PM - 4:00 PM',
-        wednesday: '12:00 PM - 4:00 PM',
-        thursday: '12:00 PM - 4:00 PM',
-        friday: '12:00 PM - 4:00 PM',
-        saturday: 'CLOSED',
-        sunday: 'CLOSED',
+const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const today = new Date().toLocaleString("en-US", { timeZone: "Asia/Manila" });
+const currentDay = new Date(today).getDay();
+const currentTime = new Date(today).getHours() * 60 + new Date(today).getMinutes(); // Time in minutes
+
+//Schedules for 3 different clinics
+const clinicSchedules = {
+    "clinic1": {
+        name: "Dental Aesthetics Center",
+        image: "../img/dental-aesthetics.jpg",
+        schedule: {
+            "Monday": { open: "12:00", close: "16:00" },
+            "Tuesday": { open: "12:00", close: "16:00" },
+            "Wednesday": { open: "12:00", close: "16:00" },
+            "Thursday": { open: "12:00", close: "16:00" },
+            "Friday": { open: "12:00", close: "16:00" },
+            "Saturday": { open: "CLOSED", close: "CLOSED" },
+            "Sunday": { open: "CLOSED", close: "CLOSED" }
+        },
+        dentists: ["Dr. Leigh Belga"],
+        services: {
+            firstColumn: [
+                "Oral Prophylaxis", 
+                "Fluoride Treatment", 
+                "Composite Restorations",
+                "Dental Sealants", 
+                "Extraction", 
+                "Root Canal Therapy"
+            ],
+            secondColumn: [
+                "Orthodontic Treatment", 
+                "Veneers", 
+                "Retainers", 
+                "Dentures"
+            ]
+        },
+        location: "<a href='https://maps.app.goo.gl/xVNJ1jWNHyJF5mqQ9'>Door 8, NEA Building, Central<br> Business District II, Triangulo, Naga City</a>",
+        facebook: "<a href='https://www.facebook.com/DentalAestheticsCenter'>Dental Aesthetics Center by Dr. Leigh Belga</a>",
+        email: "dentalaestheticscenter@yahoo.com"
     },
-    {
-        url: '../img/city-smiles.jpg',
-        label: 'City Smiles Dental Clinic',
-        status: 'Open / Closed',
-        title: 'City Smiles Dental Clinic',
-        monday: '12:00 PM - 4:00 PM',
-        tuesday: '12:00 PM - 4:00 PM',
-        wednesday: '12:00 PM - 4:00 PM',
-        thursday: '12:00 PM - 4:00 PM',
-        friday: '12:00 PM - 4:00 PM',
-        saturday: 'CLOSED',
-        sunday: 'CLOSED',
+    "clinic2": {
+        name: "City Smiles Dental Clinic", 
+        image: "../img/city-smiles.jpg",
+        schedule: {
+            "Monday": { open: "09:00", close: "18:00" },
+            "Tuesday": { open: "09:00", close: "18:00" },
+            "Wednesday": { open: "CLOSED", close: "CLOSED" },
+            "Thursday": { open: "09:00", close: "18:00" },
+            "Friday": { open: "09:00", close: "18:00" },
+            "Saturday": { open: "09:00", close: "18:00" },
+            "Sunday": { open: "09:00", close: "17:00" }
+        },
+        dentists: ["Dr. Irish", "Dr. Viel"],
+        services: {
+            firstColumn: [
+                "Dental Consultation", 
+                "Oral Prophylaxis", 
+                "Tooth Restoration",
+                "Tooth Extraction", 
+                "Oral Surgery", 
+                "Orthodontics",
+                "Cosmetic Dentistry"
+            ],
+            secondColumn: [
+                "Laser Teeth Whitening", 
+                "Prosthodontics", 
+                "Pediatric Dentistry",
+                "Root Canal Therapy",
+                "Dental x-ray"
+            ]
+        },
+        location: "<a href='https://maps.app.goo.gl/oBK9Z2dka5jrDufk7'>GF 1-C Red Corner Residences<br> Dayangdang St. , Naga City</a>",
+        facebook: "<a href='https://www.facebook.com/citysmilesdentalclinic.naga'>City Smiles Dental Clinic - Naga City</a>",
+        email: "citysmilesdentalclinic.naga@gmail.com"
     },
-    {
-        url: '../img/respall-dental.jpg',
-        label: 'Respall Dental Clinic',
-        status: 'Open / Closed',
-        title: 'Respall Dental Clinic',
-        monday: '12:00 PM - 4:00 PM',
-        tuesday: '12:00 PM - 4:00 PM',
-        wednesday: '12:00 PM - 4:00 PM',
-        thursday: '12:00 PM - 4:00 PM',
-        friday: '12:00 PM - 4:00 PM',
-        saturday: 'CLOSED',
-        sunday: 'CLOSED',
+    "clinic3": {
+        name: "Respall Dental Clinic", 
+        image: "../img/respall-dental.jpg",
+        schedule: {
+            "Monday": { open: "09:00", close: "18:00" },
+            "Tuesday": { open: "09:00", close: "18:00" },
+            "Wednesday": { open: "09:00", close: "18:00" },
+            "Thursday": { open: "09:00", close: "18:00" },
+            "Friday": { open: "09:00", close: "18:00" },
+            "Saturday": { open: "09:00", close: "18:00" },
+            "Sunday": { open: "09:00", close: "17:00" }
+        },
+        dentists: ["Dr. Alfonso Jesus Respall"],
+        services: {
+            firstColumn: [
+                "Teeth cleaning", 
+                "Stain removal", 
+                "Tooth restoration",
+                "Pits and fissure sealants", 
+                "Fluoride treatment", 
+                "Veneers",
+                "Laser teeth whitening",
+                "Dentures"
+            ],
+            secondColumn: [
+                "Crowns", 
+                "Fixed bridge", 
+                "Orthodontic treatment",
+                "Wisdom tooth removal",
+                "Tooth extraction",
+                "Root canal treatment",
+                "Periapical x-ray"
+            ]
+        },
+        location: "<a href='https://maps.app.goo.gl/FdPaeGhGy587he3z9'>Magsaysay Ave, Naga City</a>",
+        facebook: "<a href='https://www.facebook.com/profile.php?id=100068696123145'>Respall Dental Clinic - Naga </a>",
+        email: "respalldental.naga@gmail.com"
     }
-];
+};
 
-// Get the container where images will be displayed
-const imageContainer = document.getElementById('image-container');
+// Function to convert 24-hour time to 12-hour format
+function convertTo12HourFormat(timeString) {
+    const [hours, minutes] = timeString.split(':').map(Number);
+    const period = hours >= 12 ? 'PM' : 'AM';
+    const hour12 = hours % 12 || 12; // Convert 0 (midnight) or 12 (noon) to 12 in 12-hour format
+    return `${hour12}:${minutes.toString().padStart(2, '0')} ${period}`;
+}
 
-// Get the modal elements
-const modal = document.getElementById('myModal');
-const modalImg = document.getElementById('modal-image');
-const modalStatus = document.getElementById('open-close');
-const modalLocation = document.getElementById('location');
-const modalDesc = document.getElementById('modal-description');
-const modalTitle = document.getElementById('modal-title');
-const closeBtn = document.querySelector('.close');
+// Function to display schedule for each clinic
+function displaySchedule(clinic) {
+    const schedule = clinicSchedules[clinic].schedule;
+    const scheduleContainer = document.getElementById('schedule');
+    const statusContainer = document.getElementById('status');
+    const dentistsContainer = document.getElementById('dentists');
+    const servicesContainer = document.getElementById('services');
+    const locationContainer = document.getElementById('location');
+    const facebookContainer = document.getElementById('facebook');
+    const emailContainer = document.getElementById('email');
+    const clinicImage = document.getElementById('clinic-image');
 
-// Days
-const mondayTime = document.getElementById('Monday');
-const tuesdayTime = document.getElementById('Tuesday');
-const wednesdayTime = document.getElementById('Wednesday');
-const thursdayTime = document.getElementById('Thursday');
-const fridayTime = document.getElementById('Friday');
-const saturdayTime = document.getElementById('Saturday');
-const sundayTime = document.getElementById('Sunday');
+    let isOpen = false;
 
-// Loop through the array and create image elements within styled boxes
-images.forEach(image => {
-    const div = document.createElement('div'); // Create a div for the image box
-    div.className = 'image-box'; // Add class for styling
+    scheduleContainer.innerHTML = ""; // Clear previous content
 
-    const img = document.createElement('img'); // Create an image element 
-    img.src = image.url; // Set the image source
+    daysOfWeek.forEach((day, index) => {
+        const daySchedule = schedule[day];
+        const openTime = daySchedule.open !== "CLOSED" ? convertToMinutes(daySchedule.open) : null;
+        const closeTime = daySchedule.close !== "CLOSED" ? convertToMinutes(daySchedule.close) : null;
 
+        let isOpenNow = false;
+        if (openTime !== null && closeTime !== null) {
+            isOpenNow = currentTime >= openTime && currentTime <= closeTime && currentDay === index;
+        }
 
-    // When an image is clicked, open the modal
-    img.addEventListener('click', () => {
-        modal.style.display = 'flex'; // Show the modal
-        modalImg.src = image.url; // Set the modal image source
-        modalStatus.textContent = image.status; // Set status of clinic
-        mondayTime.textContent = image.monday; // Schedule for monday
-        tuesdayTime.textContent = image.tuesday; // Schedule for tuesday
-        wednesdayTime.textContent = image.wednesday; // Schedule for wednesday
-        thursdayTime.textContent = image.thursday; // Schedule for thursday
-        fridayTime.textContent = image.friday; // Schedule for friday
-        saturdayTime.textContent = image.saturday; // Schedule for saturday
-        sundayTime.textContent = image.sunday; // Schedule for sunday
-        modalTitle.textContent = image.title; // Set title
-        modalLocation.textContent = image.location; // Set the location of clinic
-        modalDesc.textContent = image.description; // Set the description of clinic
+        if (isOpenNow) isOpen = true;
+
+        const dayClass = currentDay === index ? 'highlight-day' : '';
+        const timeClass = (openTime !== null && closeTime !== null && currentTime >= openTime && currentTime <= closeTime) ? 'highlight-time' : '';
+
+        scheduleContainer.innerHTML += `
+            <div class="day ${dayClass}">
+                <span>${day}</span>
+                <span class="${timeClass}">
+                    ${daySchedule.open === "CLOSED" ? 'Closed' : `${convertTo12HourFormat(daySchedule.open)} - ${convertTo12HourFormat(daySchedule.close)}`}
+                </span>
+            </div>
+        `;
     });
 
-    const label = document.createElement('label'); // Create a label element
-    label.textContent = image.label; // Set the label text to the image label
-    label.className = 'image-label'; // Add class for label styling
+    // Set clinic name and image
+    document.getElementById('clinic-name').innerText = clinicSchedules[clinic].name; // Updated to use the name property
+    clinicImage.src = clinicSchedules[clinic].image;
 
-    div.appendChild(img); // Append the image to the box
-    div.appendChild(label); // Append the label below the image
-    imageContainer.appendChild(div); // Append the box to the container
-});
+    // Status
+    statusContainer.innerHTML = `<div class="status ${isOpen ? 'open' : 'closed-status'}">
+        ${isOpen ? 'OPEN NOW' : 'CLOSED'}
+    </div>`;
 
-// Close the modal when the 'X' is clicked
-closeBtn.addEventListener('click', () => {
-    modal.style.display = 'none';
-});
+    // Display other information
+    dentistsContainer.innerHTML = `<strong>Dentists:</strong><ul>${clinicSchedules[clinic].dentists.map(dentist => `<li>${dentist}</li>`).join('')}</ul>`;
+    servicesContainer.innerHTML = `
+        <strong>Services:</strong>
+        <div class="services">
+            <div class="column">
+                <ul>
+                    ${clinicSchedules[clinic].services.firstColumn.map(service => `<li>${service}</li>`).join('')}
+                </ul>
+            </div>
+            <div class="column">
+                <ul>
+                    ${clinicSchedules[clinic].services.secondColumn.map(service => `<li>${service}</li>`).join('')}
+                </ul>
+            </div>
+        </div>
+    `;
+    locationContainer.innerHTML = `<i class="fa-solid fa-location-dot" style="color: #ff0000;"></i> ${clinicSchedules[clinic].location}`;
+    facebookContainer.innerHTML = `<i class="fa-brands fa-facebook" style="color: #005eff;"></i> ${clinicSchedules[clinic].facebook}`;
+    emailContainer.innerHTML = `<i class="fa-regular fa-envelope" style="color: #000000;"></i> ${clinicSchedules[clinic].email}`;
+}
 
-// Close the modal if the user clicks outside the modal content
+// Helper function to convert time to minutes
+function convertToMinutes(timeString) {
+    const [hours, minutes] = timeString.split(':').map(Number);
+    return hours * 60 + minutes;
+}
+
+function showModal(clinic) {
+    displaySchedule(clinic); // Call to display the schedule of the selected clinic
+    document.getElementById('modal').style.display = 'flex'; // Display the modal
+}
+
+function closeModal() {
+    document.getElementById('modal').style.display = 'none'; // Hide the modal
+}
+
 window.addEventListener('click', (event) => {
     if (event.target === modal) {
         modal.style.display = 'none';
