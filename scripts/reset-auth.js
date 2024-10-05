@@ -26,27 +26,19 @@ console.log("oobCode:", oobCode);
 verifyPasswordResetCode(auth, oobCode)
     .then((email) => {
         console.log("Valid code for email:", email);
-        // Show the password reset form if the code is valid
-        document.getElementById('resetForm').style.display = 'block'; // Assuming you have a form with this ID
     })
     .catch((error) => {
         console.error("Error verifying code:", error);
         alert("Invalid or expired code.");
+        window.location.href = '../index.html';
     });
 
 // Validate function for password match
 function validate(event) {
     const password = document.getElementById('signup-password').value;
     const confirmPassword = document.getElementById('confirm-password').value;
-    const errorMessage = document.getElementById('error-message'); // Assuming you have this element for displaying messages
-
-    if (password !== confirmPassword) {
-        errorMessage.innerText = "Passwords do not match!";
-        errorMessage.style.color = 'red';
-        return false; // Prevent submission
-    }
-    errorMessage.innerText = ""; // Clear any previous error
-    return true; // Allow submission
+    if (password != confirmPassword) 
+        event.preventDefault();
 }
 
 // Handle form submission
@@ -54,7 +46,7 @@ const resetSubmit = document.getElementById('submit');
 resetSubmit.addEventListener('click', (e) => {
     e.preventDefault();
     
-    if (!validate(e)) return; // Only proceed if validation is successful
+    validate();
 
     const newPassword = document.getElementById('signup-password').value;
 
