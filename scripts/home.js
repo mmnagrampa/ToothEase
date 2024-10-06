@@ -149,8 +149,11 @@ function displaySchedule(clinic) {
 
         if (isOpenNow) isOpen = true;
 
+        //Check if it's the current day then highlight
         const dayClass = currentDay === index ? 'highlight-day' : '';
-        const timeClass = (openTime !== null && closeTime !== null && currentTime >= openTime && currentTime <= closeTime) ? 'highlight-time' : '';
+
+        //Highlight time if it's the current day
+        const timeClass = (currentDay === index && openTime !== null && closeTime !== null && currentTime >= openTime && currentTime <= closeTime) ? 'highlight-time' : '';
 
         scheduleContainer.innerHTML += `
             <div class="day ${dayClass}">
