@@ -59,6 +59,7 @@ body {
 .Welcome-deets button {
     margin-top: 25px;
     border-style: none;
+    transition: transform 0.5s ease;
 }
 
 .Welcome-deets a {
@@ -73,6 +74,7 @@ body {
     color: white;
     font-weight: 600;
     box-shadow: 0 1px 3px #0578A5, 0 2px 6px grey;
+    transition: box-shadow 0.5s ease;
 }
 
 #aboutUs a{
@@ -81,11 +83,11 @@ body {
     font-weight: 500;
     margin-left: 15px;
     box-shadow: 0 1px 3px grey, 0 2px 6px white;
+    transition: box-shadow 0.5s ease;
 }
 
 .Welcome-deets button:hover {
-    transform: translateY(-5px); /* Change the Y-axis translation for both buttons */
-    transition: transform 0.5s ease; /* Apply transition to both transform */
+    transform: translateY(-5px);
 }
 
 .Welcome-deets #bookAppoint a:hover {
@@ -112,9 +114,9 @@ body {
 }
 
 .appoint-deets span {
-    font-size: 20px;
+    font-size: 17px;
     background-color: white;
-    box-shadow: 0 3px 8px grey, 0 2px 6px white;
+    box-shadow: 0px 2px 5px grey;
     color: #0578A5;
     font-weight: 600;
     border-radius: 8px;
@@ -137,6 +139,7 @@ body {
 
 .appointment-btn button {
     border: 0px solid transparent;
+    transition: transform 0.5s ease;
 }
 
 .appointment-btn button a {
@@ -153,11 +156,11 @@ body {
     padding: 15px 35px;
     border-radius: 10px;
     box-shadow: 0px 5px 4px grey;
+    transition: box-shadow 0.5s ease;
 }
 
 .appointment-btn button:hover {
-    transform: translateY(-5px); /* Change the Y-axis translation for both buttons */
-    transition: transform 0.5s ease; /* Apply transition to both transform */
+    transform: translateY(-5px);
 }
 
 .appointment-btn a:hover {
@@ -176,9 +179,9 @@ body {
 }
 
 .clinic-deets span{
-    font-size: 20px;
+    font-size: 17px;
     background-color: white;
-    box-shadow: 0px 5px 4px grey;
+    box-shadow: 0px 2px 5px grey;
     color: #0578A5;
     font-weight: 600;
     border-radius: 8px;
@@ -343,7 +346,7 @@ body {
 /*status if clinic is open or close*/
 .status {
     font-weight: 600;
-    margin-left: 112px;
+    margin-left: 130px;
 }
 
 .status.open {
@@ -459,11 +462,12 @@ body {
 
 /*VIEW MORE BUTTON STARTS HERE*/
 .clinic-btn {
-    margin-top: 35px;
+    margin-top: 10px;
 }
 
 .clinic-btn button{
     border: 0px solid transparent;
+    transition: transform 0.5s ease;
 }
 
 .clinic-btn button a {
@@ -480,11 +484,11 @@ body {
     padding: 12px 23px;
     border-radius: 10px;
     box-shadow: 0px 5px 4px grey;
+    transition: box-shadow 0.5s ease;
 }
 
 .clinic-btn button:hover {
     transform: translateY(-5px); 
-    transition: transform 0.5s ease;
 }
 
 .clinic-btn a:hover {
@@ -503,9 +507,9 @@ body {
 }
 
 #about span{
-    font-size: 20px;
+    font-size: 17px;
     background-color: white;
-    box-shadow: 0px 5px 4px grey;
+    box-shadow: 0px 2px 5px grey;
     color: #0578A5;
     font-weight: 600;
     border-radius: 8px;
@@ -536,12 +540,14 @@ body {
 
 .about-btn button{
     border: 0px solid transparent;
+    transition: transform 0.5s ease;
 }
 
 .about-btn button a {
     background-color: #0578A5;
     box-shadow: 0 1px 3px #0578A5, 0 2px 6px grey;
     color: white;
+ 
 }
 
 .about-btn a {
@@ -552,11 +558,11 @@ body {
     padding: 12px 23px;
     border-radius: 10px;
     box-shadow: 0px 5px 4px grey;
+    transition: box-shadow 0.5s ease;
 }
 
 .about-btn button:hover {
-    transform: translateY(-5px); /* Change the Y-axis translation for both buttons */
-    transition: transform 0.5s ease; /* Apply transition to both transform */
+    transform: translateY(-5px);
 }
 
 .about-btn a:hover {
@@ -579,15 +585,14 @@ body {
     margin-bottom: 200px;
 }
 
-#contact .contact-content span {
-    font-size: 20px;
+#contact span {
+    font-size: 17px;
     background-color: white;
-    box-shadow: 0px 5px 4px grey;
+    box-shadow: 0px 2px 5px grey;
     color: #0578A5;
     font-weight: 600;
     border-radius: 8px;
     padding: 10px 16px;
-    width: 145px;
 }
 
 #contact .contact-content h1 {
@@ -661,6 +666,20 @@ body {
     padding: 15px;
     width: 100%;
     margin-top: 10px;
+    transition: all 0.5s ease;
+    outline: none;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+}
+
+.contact-container input:focus,
+.contact-container textarea:focus {
+    border: 1px solid #0578A5;
+}
+
+.contact-container input:hover,
+.contact-container textarea:hover {
+    border: 1px solid #0578A5;
 }
 
 .msg textarea {
@@ -681,9 +700,14 @@ body {
     background-color: #0578A5;
     color: white;
     border-radius: 5px;
-    box-shadow: 0 1px 3px #0578A5, 0 2px 6px grey;
     font-weight: 500;
+    transition: all 0.5s ease;
 }
+
+.submit-btn button:hover {
+    box-shadow: 2px 2px 10px 0.1px #02658b;
+}
+
 
 /* Footer styles */
 .footer {
@@ -694,27 +718,27 @@ body {
 
 .footer-content {
     display: flex;
-    justify-content: space-between; /* Spreads out the sections */
+    justify-content: space-between; 
     align-items: center;
-    max-width: 1200px; /* Define max width for centering */
-    margin: 0 auto; /* Centers the content horizontally */
-    width: 100%; /* Ensure the content takes full width */
+    max-width: 1200px; 
+    margin: 0 auto; 
+    width: 100%; 
 }
 
 .footer-links {
     display: flex;
     align-items: center;
-    gap: 20px; /* Space between each element */
+    gap: 20px; 
 }
 
 .footer-logo img {
     height: 90px;
     width: 95px;
-    margin-right: 10px; /* Adds space between logo and title */
+    margin-right: 10px; /
 }
 
 .footer-links h1 {
-    margin-right: 10px; /* Adds space between title and links */
+    margin-right: 10px; 
     font-size: 24px;
 }
 
@@ -726,7 +750,7 @@ body {
 }
 
 .footer-links a:hover {
-    color: #0578A5; /* Hover color for social icons */
+    color: #0578A5; 
 }
 
 .footer-credits {
