@@ -4,9 +4,9 @@
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Home | ToothEase</title>
-            <link rel="stylesheet" href="../styles/home.css">
-            <link rel="stylesheet" href="../styles/nav-bar.css">
-            <link rel="shortcut icon" type="x-icon" href="../img/logo.png" sizes="64x64">
+            <link rel="stylesheet" href="home.css">
+            <link rel="stylesheet" href="nav-bar.css">
+            <link rel="shortcut icon" type="x-icon" href="./pics/logo.png" sizes="64x64">
             <link rel="preconnect" href="https://fonts.googleapis.com">
             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
             <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
@@ -16,7 +16,7 @@
     <body>
         <header>
             <div class="logo-container">
-                <img src="../img/logo.png" class="logo-img" alt="ToothEase Logo">
+                <img src="./pics/logo.png" class="logo-img" alt="ToothEase Logo">
                 <a href="#" class="brand-name">ToothEase</a>
             </div>
             
@@ -33,7 +33,7 @@
                 <div class="profile-container">
                     <i class="fa-solid fa-user profile-icon"></i>
                     <div class="profile-dropdown" id="subMenu">
-                        <a href="#" id="logout">Logout</a>
+                        <a href="/LOGIN PAGE/index.html">Logout</a>
                     </div>
                 </div>
             </nav>
@@ -50,14 +50,14 @@
             </div>
 
             <div class="clinic-pic">
-                <img src="../img/clinic.png">
+                <img src="./pics/clinic.png">
             </div>
         </section>
     
         <!-- APPOINTMENT DEETS -->
         <section id="appointments" class="section">
             <div class="appointment-pic">
-                <img src="../img/appointmentt.png">
+                <img src="./pics/appointmentt.png">
             </div>
 
             <div class="appoint-deets">
@@ -82,19 +82,19 @@
 
                 <!-- CLINIC 1-->
                 <div class="clinic" onclick="showModal('clinic1')">
-                    <img src="../img/dental-aesthetics.jpg" alt="Clinic 1">
+                    <img src="./pics/dental-aesthetics.jpg" alt="Clinic 1">
                     <h3>Dental Aesthetics</h3>
                 </div>
                 
                 <!-- CLINIC 2-->
                 <div class="clinic" onclick="showModal('clinic2')">
-                    <img src="../img/city-smiles.jpg" alt="Clinic 2">
+                    <img src="./pics/city-smiles.jpg" alt="Clinic 2">
                     <h3>City Smiles</h3>
                 </div>
 
                 <!-- CLINIC 3-->
                 <div class="clinic" onclick="showModal('clinic3')">
-                    <img src="../img/respall-dental.jpg" alt="Clinic 3">
+                    <img src="./pics/respall-dental.jpg" alt="Clinic 3">
                     <h3>Respall Dental Clinic</h3>
                 </div>
 
@@ -156,7 +156,7 @@
                 <p>Find out how we’re making dental care simpler<br> and more accessible for everyone!</p>
             </div>
             <div class="about-pic">
-                <img src="../img/about-us.jpg">
+                <img src="./pics/about-us.jpg">
             </div>
             <div class="about-btn">
                 <button><a href="/ABOUT PAGE/patient-aboutpage.html">About Our Website</a></button>
@@ -166,7 +166,9 @@
         <!-- CONTACT DEETS -->
         <section id="contact" class="section">
             <div class="contact-content">
-                <span>Contact Us</span>
+                <div class="contact-name">
+                    <span>Contact Us</span>
+                </div>
                 <h1>Need Assistance? Contact Us<br> and Let’s Connect!</h1>
                 <p>Reach out to us for any inquiries or support. We're<br> here to help you every step of the way!</p>
                 <div class="contact-deets">
@@ -218,7 +220,7 @@
             <div class="footer-content">
                 <div class="footer-links">
                     <div class="footer-logo">
-                        <img src="../img/logo.png" alt="Logo">
+                        <img src="./pics/logo.png" alt="Logo">
                     </div>
                     <h1>ToothEase</h1>
                     <a href="https://www.facebook.com/"><i class='bx bxl-facebook-circle'></i></a>
@@ -230,8 +232,7 @@
                 </div>
             </div>
         </footer>
-        <script type='module' src="../scripts/nav-auth.js"></script>
-        <script src="../scripts/nav-bar.js"></script>
-        <script src="../scripts/home.js"></script>
+        <script src="nav-bar.js"></script>
+        <script src="home.js"></script>
     </body>
 </html>
