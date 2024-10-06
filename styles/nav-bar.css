@@ -107,27 +107,58 @@ nav .booknow:hover{
     display: none;
     position: absolute;
     right: 0;
-    background-color: white;
+    margin-top: 30px;
+    width: 300px;
+    background-color: #0578A5;
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
-    padding: 10px;
-    z-index: 100;
-    opacity: 0;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    transform: translateY(-10px); /* Slightly move up before showing */
+    padding: 10px 5px;
 }
 
-.profile-dropdown a {
-    display: block;
-    padding: 8px 12px;
-    text-decoration: none;
+
+#welcome-message {
+    color: white;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.sub-menu-link {
+    color: white;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin: 12px 0;
+    transition: font-weight 0.5 ease;
+}
+
+.sub-menu-link i {
     color: black;
-    font-size: 16px;
+    background-color: white;
+    padding: 7px;
+    border-radius: 50%;
 }
 
-.profile-dropdown a:hover {
-    background-color: #f0f0f0;
+.sub-menu-link p {
+    margin-left: 15px;
+    width: 100%;
 }
+
+.sub-menu-link span {
+    font-size: 14px;
+    transition: transform 0.5s;
+}
+
+.sub-menu-link:hover span{
+    transform: translateX(2px);
+}
+
+.sub-menu-link:hover {
+    font-weight: bold;
+    transform: translateY(0);
+    color: white;
+
+}
+
 
 /* When active, show the dropdown */
 .profile-dropdown.active {
