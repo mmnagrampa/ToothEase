@@ -107,6 +107,24 @@ body {
     outline: none;
 }
 
+.passwordcontainer{
+    background-color: #D9D9D9;
+    border: none;
+    margin: 8px 0;
+    padding: 10px 15px;
+    font-size: 13px;
+    border-radius: 10px;
+    width: 100%;
+    outline: none;
+    display: flex;
+    flex-direction: row;
+}
+
+.passwordcontainer > input{
+    padding: 0 1px;
+    margin:0;
+}
+
 .sign-in .passwordHide{
     position: absolute;
     width: 50px;
@@ -130,10 +148,7 @@ body {
 
 #passwordHide {
     color: #BDBDBD;
-    position: absolute;
     font-size: 20px;
-    margin-top: 7px;
-    margin-left: 303px;
     cursor: pointer;
 }
 
