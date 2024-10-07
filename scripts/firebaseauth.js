@@ -95,7 +95,13 @@ signinForm.addEventListener('submit', (e) => {
                 signInMessage.style.color = 'red';
                 signInMessage.innerHTML = 'Incorrect email or password!';
                 e.preventDefault();
-            } else {
+            } else if(eCode === 'auth/invalid-email') {
+                checkEmail.hidden = false;
+                checkEmail.style.color = 'red';
+                checkEmail.innerHTML = 'Invalid email! Please try again!';
+                e.preventDefault();
+            }
+            else {
                 signInMessage.style.color = 'red';
                 signInMessage.innerHTML = 'Account does not exist!';
                 console.error("Error creating user: ", error);
