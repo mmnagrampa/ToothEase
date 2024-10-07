@@ -96,9 +96,9 @@ signinForm.addEventListener('submit', (e) => {
                 signInMessage.innerHTML = 'Incorrect email or password!';
                 e.preventDefault();
             } else if(eCode === 'auth/invalid-email') {
-                checkEmail.hidden = false;
-                checkEmail.style.color = 'red';
-                checkEmail.innerHTML = 'Invalid email! Please try again!';
+                signInMessage.hidden = false;
+                signInMessage.style.color = 'red';
+                signInMessage.innerHTML = 'Invalid email! Please try again!';
                 e.preventDefault();
             }
             else {
