@@ -147,7 +147,7 @@ body {
     z-index: 2;
 }
 
-#passwordHide {
+#passwordHide, .passContainer > i {
     color: #BDBDBD;
     font-size: 20px;
     cursor: pointer;
