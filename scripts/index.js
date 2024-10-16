@@ -25,6 +25,34 @@ document.addEventListener("DOMContentLoaded", function() {
 
 });
 
+document.addEventListener("DOMContentLoaded", function() {
+    const passwordSignup = document.getElementById("signup-password");
+    const passwordConfirm = document.getElementById("confirm-password");
+    const passwordRevealSignup = document.getElementById("passwordRevealSignup");
+    const passwordRevealConfirm = document.getElementById("passwordRevealConfirm");
+
+    function togglePasswordVisibility() {
+        if (passwordRevealSignup.classList.contains("bxs-hide")) {
+            passwordRevealSignup.classList.remove("bxs-hide");
+            passwordRevealSignup.classList.add("bxs-show");
+            passwordRevealConfirm.classList.remove("bxs-hide");
+            passwordRevealConfirm.classList.add("bxs-show");
+            passwordSignup.type = 'text';
+            passwordConfirm.type = 'text';
+        } else {
+            passwordRevealSignup.classList.remove("bxs-show");
+            passwordRevealSignup.classList.add("bxs-hide");
+            passwordRevealConfirm.classList.remove("bxs-show");
+            passwordRevealConfirm.classList.add("bxs-hide");
+            passwordSignup.type = 'password';
+            passwordConfirm.type = 'password';
+        }
+    }
+
+    passwordRevealSignup.addEventListener("click", togglePasswordVisibility);
+    passwordRevealConfirm.addEventListener("click", togglePasswordVisibility);
+});
+
 registerbtn.addEventListener("click", () => {
     container.classList.add("active");
 });
