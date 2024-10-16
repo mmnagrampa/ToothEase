@@ -25,8 +25,14 @@
                     <input type="text" placeholder="Name" id="signup-name" required>
                     <input type="text" placeholder="Email" id="signup-email" required>
                     <span id="check-email"></span>
-                    <input type="password" placeholder="Password" id="signup-password" onkeyup='check()' required>
-                    <input type="password" placeholder="Confirm Password" id="confirm-password" onkeyup='check()' required>
+                    <div class="passContainer">
+                        <input type="password" placeholder="Password" id="signup-password" onkeyup='check()' required>
+                        <i class='bx bxs-hide' id="passwordRevealSignup"></i>
+                    </div>
+                    <div class="passContainer">
+                        <input type="password" placeholder="Confirm Password" id="confirm-password" onkeyup='check()' required>
+                        <i class='bx bxs-hide' id="passwordRevealConfirm"></i>
+                    </div>
                     <span id="message"></span>
                     <input type="text" value="staff" style="display: none;">
                     <button type="submit" id="signUp">SIGN UP</button>
