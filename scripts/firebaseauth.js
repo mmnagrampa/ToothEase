@@ -20,11 +20,15 @@ function validate(event) {
     const password = document.getElementById('signup-password').value;
     const confirmPassword = document.getElementById('confirm-password').value;
     const message = document.getElementById('message');
-    if (password != confirmPassword) 
+    if (password != confirmPassword) {
         message.hidden = false;
         message.style.color = 'red';
         message.innerHTML = 'Passwords do not match';
         event.preventDefault();
+    } else {
+        message.hidden = true;
+        return;
+    }
 }
 
 const signupForm = document.querySelector('#signup-form');
