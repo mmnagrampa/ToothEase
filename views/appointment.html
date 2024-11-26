@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Appointment | ToothEase</title>
-        <link rel="stylesheet" href="../styles/home.css">
+        <link rel="stylesheet" href="../styles/appointment.css">
         <link rel="stylesheet" href="../styles/nav-bar.css">
         <link rel="shortcut icon" type="x-icon" href="../img/logo.png" sizes="64x64">
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,23 +21,64 @@
             </div>
             
             <nav>
-                <a href="homepage.html" >Home</a>
-                <a href="appointment.html"  class="active">Appointments</a>
+                <a href="homepage.html">Home</a>
+                <a href="appointment.html" class="active">Appointments</a>
                 <a href="clinics.html">Clinics</a>
                 <a href="about-us.html">About Us</a>
                 <a href="contact.html">Contact</a>
-                <a href="booking.html" class="booknow">BOOK NOW</a>
+                <a href="appointment.html" class="booknow">BOOK NOW</a>
                 <div class="separator"></div>
                 
                 <!-- Profile dropdown container -->
                 <div class="profile-container">
                     <i class="fa-solid fa-user profile-icon"></i>
                     <div class="profile-dropdown" id="subMenu">
-                        <a href="#" id="logout">Logout</a>
+                        <h4 id="welcome-message">Welcome!</h4>
+                        <hr>
+                        <a id="editProfile" href="#" class="sub-menu-link">
+                            <i class="fa-solid fa-user"></i>
+                            <p>Edit Profile</p>
+                            <span>></span>
+                        </a>
+                        <a id="logout" href="#" class="sub-menu-link">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                            <p>Logout</p>
+                            <span>></span>
+                        </a>
                     </div>
                 </div>
             </nav>
-        </header>  
+            
+        </header> 
+
+        <div class="book-appointment">
+            <div class="title">
+                <h2>Booked Appointments</h2>
+            </div> 
+            <div class="no-book">
+                <span>No Booked Appointments</span>
+                <br>
+                <button id="bookAppoint"><a href="/APPOINTMENT PAGE/patient-appointments.html">Book Now</a></button>
+            </div>
+        </div>
+
+        <!-- FOOTER DEETS -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <div class="footer-logo">
+                        <img src="../img/logo.png" alt="Logo">
+                    </div>
+                    <h1>ToothEase</h1>
+                    <a href="#"><i class='bx bxl-facebook-circle'></i></a>
+                    <a href="#"><i class='bx bxl-instagram'></i></a>
+                    <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+                </div>
+                <div class="footer-credits">
+                    <p>&copy;ToothEase. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
         <script type='module' src="../scripts/nav-auth.js"></script>
         <script src="../scripts/nav-bar.js"></script>
     </body>
