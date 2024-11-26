@@ -1,0 +1,4 @@
+.flatpickr-day.unavailable {
+        background-color: red !important; /* Red background for unavailable dates */
+        color: white !important;  /* Make text white for better contrast */
+    }
