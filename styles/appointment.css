@@ -20,6 +20,14 @@ body {
     flex-direction: column;
 }
 
+.section {
+    padding: 100px 50px;
+    min-height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .book-appointment {
     margin: auto;
     width: 40%;
