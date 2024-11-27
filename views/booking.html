@@ -24,7 +24,7 @@
             
             <nav>
                 <a href="homepage.html" >Home</a>
-                <a href="appointment.html"  class="active">Appointments</a>
+                <a href="appointment.html">Appointments</a>
                 <a href="clinics.html">Clinics</a>
                 <a href="about-us.html">About Us</a>
                 <a href="contact.html">Contact</a>
@@ -39,30 +39,77 @@
                     </div>
                 </div>
             </nav>
-        </header>  
+        </header> 
+        <div class="section">
             <form id="appointment-form">
+                <h1>Book an Appointment</h1>
                 <!-- Clinic Dropdown -->
-                <label for="clinics">Select a Clinic:</label>
-                <select id="clinics">
-                    <option value="">Select a clinic</option>
-                </select>
+                <div class="clinicService">
+                    <h2>Select Dental Clinic & Service:</h2>
+                    <div class="option-deets">
+                        <div class="clinic-deets">
+                            <label for="clinics" required>Clinics:</label>
+                            <select id="clinics">
+                                <option value="">Select Clinic</option>
+                            </select>
+                        </div>
 
-                <!-- Service Dropdown -->
-                <label for="services">Select a Service:</label>
-                <select id="services">
-                    <option value="">Select a service</option>
-                </select>
+                        <!-- Service Dropdown -->
+                        <div class="services-deets">
+                            <label for="services" required>Services:</label>
+                            <select id="services">
+                                <option value="">Select Service</option>
+                            </select>
+                        </div>
+                    </div>
 
-                <!-- Appointment Date -->
-                <label for="appointment-date">Select Appointment Date:</label>
-                <input type="text" id="appointment-date" placeholder="Select a date" />
+                    <!-- Appointment Date -->
+                    <div class="dateTime">
+                        <h2>Select Date & Time:</h2>
+                        <div class="optionDeets">
+                            <div class="setDate">
+                                <label for="appointment-date" required>Date:</label>
+                                <input type="text" id="appointment-date" placeholder="Select Date" />
+                            </div>
+                            
+                            
+                            <!-- Time Picker (hidden initially) -->
+                            <div class="setTime">
+                                <label for="appointment-time" required>Time:</label>
+                                <select id="appointment-time">
+                                    <option value="">Select Time</option> <!-- Default option -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="submit-btn">
+                        <button type="submit" value="submit">Submit</button>
+                    </div>
+                </div>
 
-                <!-- Time Picker (hidden initially) -->
-                <label for="appointment-time">Select a Time:</label>
-                <select id="appointment-time">
-                    <option value="">Select a time</option> <!-- Default option -->
-                </select>
             </form>
+        </div>
+
+
+        <!-- FOOTER DEETS -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <div class="footer-logo">
+                        <img src="../img/logo.png" alt="Logo">
+                    </div>
+                    <h1>ToothEase</h1>
+                    <a href="#"><i class='bx bxl-facebook-circle'></i></a>
+                    <a href="#"><i class='bx bxl-instagram'></i></a>
+                    <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+                </div>
+                <div class="footer-credits">
+                    <p>&copy;ToothEase. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
         <script type='module' src="../scripts/booking.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
         <script type='module' src="../scripts/nav-auth.js"></script>
