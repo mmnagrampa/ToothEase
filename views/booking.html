@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Book Appointment | ToothEase</title>
-        <link rel="stylesheet" href="../styles/home.css">
+        <link rel="stylesheet" href="../styles/footer.css">
         <link rel="stylesheet" href="../styles/nav-bar.css">
         <link rel="stylesheet" href="../styles/booking.css">
         <link rel="shortcut icon" type="x-icon" href="../img/logo.png" sizes="64x64">
@@ -23,11 +23,10 @@
             </div>
             
             <nav>
-                <a href="homepage.html" >Home</a>
+                <a href="homepage.html">Home</a>
                 <a href="appointment.html">Appointments</a>
                 <a href="clinics.html">Clinics</a>
                 <a href="about-us.html">About Us</a>
-                <a href="contact.html">Contact</a>
                 <a href="booking.html" class="booknow">BOOK NOW</a>
                 <div class="separator"></div>
                 
@@ -35,40 +34,54 @@
                 <div class="profile-container">
                     <i class="fa-solid fa-user profile-icon"></i>
                     <div class="profile-dropdown" id="subMenu">
-                        <a href="#" id="logout">Logout</a>
+                        <h4 id="welcome-message">Welcome!</h4>
+                        <hr>
+                        <a id="editProfile" href="#" class="sub-menu-link">
+                            <i class="fa-solid fa-user"></i>
+                            <p>Edit Profile</p>
+                            <span>></span>
+                        </a>
+                        <a id="logout" href="#" class="sub-menu-link">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                            <p>Logout</p>
+                            <span>></span>
+                        </a>
                     </div>
                 </div>
             </nav>
-        </header> 
+            
+        </header>  
         <div class="section">
             <form id="appointment-form">
                 <h1>Book an Appointment</h1>
                 <!-- Clinic Dropdown -->
                 <div class="clinicService">
                     <h2>Select Dental Clinic & Service:</h2>
-                    <div class="option-deets">
                         <div class="clinic-deets">
-                            <label for="clinics" required>Clinics:</label>
-                            <select id="clinics">
-                                <option value="">Select Clinic</option>
-                            </select>
-                        </div>
-
-                        <!-- Service Dropdown -->
-                        <div class="services-deets">
-                            <label for="services" required>Services:</label>
-                            <select id="services">
-                                <option value="">Select Service</option>
-                            </select>
-                        </div>
+                            <div class="setClinic">
+                                <label for="clinics" required>Clinics:</label>
+                                <br>
+                                <select id="clinics">
+                                    <option value="">Select Clinic</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Service Dropdown -->
+                            <div class="setService">
+                                <label for="services" required>Services:</label>
+                                <br>
+                                <select id="services">
+                                    <option value="">Select Service</option>
+                                </select>
+                            </div>
                     </div>
-
                     <!-- Appointment Date -->
                     <div class="dateTime">
                         <h2>Select Date & Time:</h2>
-                        <div class="optionDeets">
+                        <div class="clinic-setDateTime">
                             <div class="setDate">
                                 <label for="appointment-date" required>Date:</label>
+                                <br>
                                 <input type="text" id="appointment-date" placeholder="Select Date" />
                             </div>
                             
@@ -76,22 +89,20 @@
                             <!-- Time Picker (hidden initially) -->
                             <div class="setTime">
                                 <label for="appointment-time" required>Time:</label>
+                                <br>
                                 <select id="appointment-time">
-                                    <option value="">Select Time</option> <!-- Default option -->
+                                    <option id="TimeSet" value="">Select Time</option> <!-- Default option -->
                                 </select>
                             </div>
                         </div>
-                        
                     </div>
                     
                     <div class="submit-btn">
                         <button type="submit" value="submit">Submit</button>
                     </div>
                 </div>
-
             </form>
         </div>
-
 
         <!-- FOOTER DEETS -->
         <footer class="footer">
