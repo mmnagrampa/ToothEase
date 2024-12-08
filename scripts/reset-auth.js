@@ -65,9 +65,7 @@ function showMessagePopup(message, redirectUrl = null) {
 const resetSubmit = document.getElementById('submit');
 resetSubmit.addEventListener('click', (e) => {
     e.preventDefault();
-    
     validate();
-
     const newPassword = document.getElementById('signup-password').value;
 
     confirmPasswordReset(auth, oobCode, newPassword)
