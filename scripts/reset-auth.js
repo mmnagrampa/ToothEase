@@ -7,8 +7,8 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Extract the reset token from the URL
 const urlParams = new URLSearchParams(window.location.search);
-const resetToken = urlParams.get('access_token'); // Corrected to match your URL
-console.log('Reset Token:', resetToken); // Debugging
+const accessToken = urlParams.get('access_token'); // Use access_token as per the URL
+console.log('Access Token:', accessToken); // Debugging
 
 // Function to display messages
 function showMessagePopup(message, redirectUrl = null) {
@@ -30,7 +30,7 @@ function showMessagePopup(message, redirectUrl = null) {
 }
 
 // Function to validate password and confirmation
-function validate(event) {
+function validate() {
     const password = document.getElementById('signup-password').value;
     const confirmPassword = document.getElementById('confirm-password').value;
     const message = document.getElementById('message');
@@ -51,17 +51,29 @@ resetSubmit.addEventListener('click', async (e) => {
     e.preventDefault();
 
     // Validate the password confirmation
-    if (!validate(e)) return;
+    if (!validate()) return;
 
     const newPassword = document.getElementById('signup-password').value;
 
-    if (!resetToken) {
-        showMessagePopup('Invalid or expired reset token.', '../index.html');
+    if (!accessToken) {
+        showMessagePopup('Invalid or expired access token.', '../index.html');
         return;
     }
 
     try {
-        // Update the user password with the reset token
+        // Set the session using the access token
+        const { error: sessionError } = await supabase.auth.setSession({
+            access_token: accessToken,
+            refresh_token: null, // Pass null as refresh_token is not available
+        });
+
+        if (sessionError) {
+            console.error('Error setting session:', sessionError);
+            showMessagePopup('Failed to authenticate. Please try again.', '../index.html');
+            return;
+        }
+
+        // Update the user password
         const { data, error } = await supabase.auth.updateUser({ password: newPassword });
         if (error) {
             console.error('Error resetting password:', error);
