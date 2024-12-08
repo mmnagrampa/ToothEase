@@ -111,6 +111,7 @@ body {
     border-radius: 15px;
     width: 720px;
     height: 550px;
+    object-fit: cover;
 }
 
 .appoint-deets span {
