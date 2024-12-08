@@ -7,10 +7,8 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Extract the reset token from the URL
 const urlParams = new URLSearchParams(window.location.search);
-const resetToken = urlParams.get('token');
-
-// Log the token for debugging purposes
-console.log('Reset Token:', resetToken);
+const resetToken = urlParams.get('access_token'); // Corrected to match your URL
+console.log('Reset Token:', resetToken); // Debugging
 
 // Function to display messages
 function showMessagePopup(message, redirectUrl = null) {
