@@ -9,6 +9,9 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 const urlParams = new URLSearchParams(window.location.search);
 const resetToken = urlParams.get('token');
 
+// Log the token for debugging purposes
+console.log('Reset Token:', resetToken);
+
 // Function to display messages
 function showMessagePopup(message, redirectUrl = null) {
     const overlay = document.getElementById('popup-overlay');
@@ -37,16 +40,19 @@ function validate(event) {
         message.hidden = false;
         message.style.color = 'red';
         message.innerHTML = 'Passwords do not match';
-        return false; // Ensure it stops submission
+        return false; // Prevents further processing
     } else {
         message.hidden = true;
         return true;
     }
 }
 
+// Submit button event listener
 const resetSubmit = document.getElementById('submit');
 resetSubmit.addEventListener('click', async (e) => {
     e.preventDefault();
+
+    // Validate the password confirmation
     if (!validate(e)) return;
 
     const newPassword = document.getElementById('signup-password').value;
@@ -57,15 +63,17 @@ resetSubmit.addEventListener('click', async (e) => {
     }
 
     try {
-        const { error } = await supabase.auth.updateUser({ password: newPassword });
+        // Update the user password with the reset token
+        const { data, error } = await supabase.auth.updateUser({ password: newPassword });
         if (error) {
-            console.error("Error resetting password:", error);
-            showMessagePopup('Error resetting password.');
+            console.error('Error resetting password:', error);
+            showMessagePopup('Error resetting password. Please try again.');
         } else {
+            console.log('Password reset successful:', data);
             showMessagePopup('Password has been reset successfully!', '../index.html');
         }
     } catch (error) {
-        console.error("Unexpected error:", error);
-        showMessagePopup('Invalid or expired reset token.', '../index.html');
+        console.error('Unexpected error during password reset:', error);
+        showMessagePopup('An unexpected error occurred. Please try again.', '../index.html');
     }
 });
