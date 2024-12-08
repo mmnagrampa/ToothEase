@@ -2,12 +2,12 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 
 // Supabase credentials
 const supabaseUrl = 'https://ucspfnzhoepaxvpigvfm.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVjc3Bmbnpob2VwYXh2cGlndmZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzI2MzU4MDcsImV4cCI6MjA0ODIxMTgwN30.iw7m3PDLJByvFGZTXsmbEDPxkP28_RYkNh9egJ5BXY4';
+const supabaseKey = 'YOUR_SUPABASE_ANON_KEY'; // Replace with your Supabase anon key
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Extract the reset token from the URL
 const urlParams = new URLSearchParams(window.location.search);
-const accessToken = urlParams.get('access_token'); // Use access_token as per the URL
+const accessToken = urlParams.get('access_token'); // Use `access_token` from the URL
 console.log('Access Token:', accessToken); // Debugging
 
 // Function to display messages
@@ -61,7 +61,7 @@ resetSubmit.addEventListener('click', async (e) => {
     }
 
     try {
-        // Use the access token directly for password reset
+        // Update the user password using the reset token (access_token)
         const { data, error } = await supabase.auth.updateUser({
             access_token: accessToken,
             password: newPassword,
