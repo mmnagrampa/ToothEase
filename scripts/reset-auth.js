@@ -58,16 +58,27 @@ resetSubmit.addEventListener('click', (e) => {
 
     // Verify the password reset token
     supabase.auth
-        .resetPasswordForToken(resetToken, newPassword)
+        .verifyPasswordResetToken(resetToken)
         .then(({ data, error }) => {
             if (error) {
+                console.error("Token verification error:", error);
                 showMessagePopup('Invalid or expired reset token.', '../index.html');
             } else {
-                showMessagePopup('Password has been reset successfully!', '../index.html');
+                // Proceed to reset the password
+                supabase.auth
+                    .updatePassword({ token: resetToken, newPassword })
+                    .then(({ data, error }) => {
+                        if (error) {
+                            console.error("Error resetting password:", error);
+                            showMessagePopup('Error resetting password.');
+                        } else {
+                            showMessagePopup('Password has been reset successfully!', '../index.html');
+                        }
+                    });
             }
         })
         .catch((error) => {
-            console.error("Error resetting password:", error);
-            showMessagePopup('Error resetting password.');
+            console.error("Error verifying token:", error);
+            showMessagePopup('Invalid or expired reset token.', '../index.html');
         });
 });
