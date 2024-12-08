@@ -9,28 +9,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 const urlParams = new URLSearchParams(window.location.search);
 const accessToken = urlParams.get('token');
 
-// Validate the token
-if (!accessToken) {
-    showMessagePopup('Invalid or expired reset token.', '../index.html');
-}
-
-console.log("Access Token:", accessToken);
-
-function validate(event) {
-    const password = document.getElementById('signup-password').value;
-    const confirmPassword = document.getElementById('confirm-password').value;
-    const message = document.getElementById('message');
-    if (password !== confirmPassword) {
-        message.hidden = false;
-        message.style.color = 'red';
-        message.innerHTML = 'Passwords do not match';
-        event.preventDefault();
-    } else {
-        message.hidden = true;
-        return;
-    }
-}
-
+// Function to handle error message display
 function showMessagePopup(message, redirectUrl = null) {
     const overlay = document.getElementById('popup-overlay');
     const popupBox = document.getElementById('popup-box');
@@ -49,11 +28,33 @@ function showMessagePopup(message, redirectUrl = null) {
     }, 3000);
 }
 
+// Function to validate password and confirm
+function validate(event) {
+    const password = document.getElementById('signup-password').value;
+    const confirmPassword = document.getElementById('confirm-password').value;
+    const message = document.getElementById('message');
+    if (password !== confirmPassword) {
+        message.hidden = false;
+        message.style.color = 'red';
+        message.innerHTML = 'Passwords do not match';
+        event.preventDefault();
+    } else {
+        message.hidden = true;
+        return;
+    }
+}
+
 const resetSubmit = document.getElementById('submit');
 resetSubmit.addEventListener('click', (e) => {
     e.preventDefault();
     validate();
+
     const newPassword = document.getElementById('signup-password').value;
+
+    if (!accessToken) {
+        showMessagePopup('Invalid or expired reset token.', '../index.html');
+        return;
+    }
 
     // Verify the password reset token
     supabase.auth
@@ -74,4 +75,4 @@ resetSubmit.addEventListener('click', (e) => {
                     });
             }
         });
-}); 
+});
