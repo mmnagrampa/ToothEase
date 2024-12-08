@@ -61,9 +61,10 @@ resetSubmit.addEventListener('click', async (e) => {
     }
 
     try {
-        // Update the user password using the reset token (access_token)
-        const { data, error } = await supabase.auth.updateUser({
-            access_token: accessToken,
+        // Use the access_token directly to reset the password
+        const { data, error } = await supabase.auth.verifyOTP({
+            type: 'recovery',
+            token: accessToken,
             password: newPassword,
         });
 
