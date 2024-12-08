@@ -37,17 +37,17 @@ function validate(event) {
         message.hidden = false;
         message.style.color = 'red';
         message.innerHTML = 'Passwords do not match';
-        event.preventDefault();
+        return false; // Ensure it stops submission
     } else {
         message.hidden = true;
-        return;
+        return true;
     }
 }
 
 const resetSubmit = document.getElementById('submit');
-resetSubmit.addEventListener('click', (e) => {
+resetSubmit.addEventListener('click', async (e) => {
     e.preventDefault();
-    validate();
+    if (!validate(e)) return;
 
     const newPassword = document.getElementById('signup-password').value;
 
@@ -56,29 +56,16 @@ resetSubmit.addEventListener('click', (e) => {
         return;
     }
 
-    // Verify the password reset token
-    supabase.auth
-        .verifyPasswordResetToken(resetToken)
-        .then(({ data, error }) => {
-            if (error) {
-                console.error("Token verification error:", error);
-                showMessagePopup('Invalid or expired reset token.', '../index.html');
-            } else {
-                // Proceed to reset the password
-                supabase.auth
-                    .updatePassword({ token: resetToken, newPassword })
-                    .then(({ data, error }) => {
-                        if (error) {
-                            console.error("Error resetting password:", error);
-                            showMessagePopup('Error resetting password.');
-                        } else {
-                            showMessagePopup('Password has been reset successfully!', '../index.html');
-                        }
-                    });
-            }
-        })
-        .catch((error) => {
-            console.error("Error verifying token:", error);
-            showMessagePopup('Invalid or expired reset token.', '../index.html');
-        });
+    try {
+        const { error } = await supabase.auth.updateUser({ password: newPassword });
+        if (error) {
+            console.error("Error resetting password:", error);
+            showMessagePopup('Error resetting password.');
+        } else {
+            showMessagePopup('Password has been reset successfully!', '../index.html');
+        }
+    } catch (error) {
+        console.error("Unexpected error:", error);
+        showMessagePopup('Invalid or expired reset token.', '../index.html');
+    }
 });
