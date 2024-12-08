@@ -1,20 +1,9 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
-import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
-import { getFirestore, getDoc, doc } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0/+esm';
 
-const firebaseConfig = {
-    apiKey: "AIzaSyC9gZqAF4RoCt1MOJNIYXmGo4FPWf7032U",
-    authDomain: "tootheasee.firebaseapp.com",
-    projectId: "tootheasee",
-    storageBucket: "tootheasee.appspot.com",
-    messagingSenderId: "370145091456",
-    appId: "1:370145091456:web:06c42d2e543f68c4566b65",
-    measurementId: "G-F3HRFTH29X"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+// Supabase credentials
+const supabaseUrl = 'https://ucspfnzhoepaxvpigvfm.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVjc3Bmbnpob2VwYXh2cGlndmZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzI2MzU4MDcsImV4cCI6MjA0ODIxMTgwN30.iw7m3PDLJByvFGZTXsmbEDPxkP28_RYkNh9egJ5BXY4';
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 function showMessagePopup(message, reload = false, redirectUrl = null) {
     const overlay = document.getElementById('popup-overlay');
@@ -31,37 +20,53 @@ function showMessagePopup(message, reload = false, redirectUrl = null) {
         if (reload) {
             window.location.reload();
         } else if (redirectUrl) {
-            window.location.href = redirectUrl; 
+            window.location.href = redirectUrl;
         }
     }, 3000);
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    onAuthStateChanged(auth, async (user) => {
-        if (user) {
-            const userID = user.uid;
-            const userDocRef = doc(db, 'users', userID);
-            const docSnap = await getDoc(userDocRef);
+document.addEventListener("DOMContentLoaded", async () => {
+    const { data: { session }, error } = await supabase.auth.getSession();
+    if (error) {
+        console.error('Error retrieving session:', error.message);
+    }
 
-            if (docSnap.exists()) {
-                const userData = docSnap.data();
-                const welcome = document.getElementById('welcome-message');
-                welcome.innerText = `Welcome, ${userData.name}!`;
-            }
-        } else {
-            console.log("User does not exist");
+    const user = session?.user;
+
+    if (user) {
+        console.log('User info:', user);
+        const userID = user.id;
+
+        // Fetch user data from Supabase
+        const { data: userData, error: fetchError } = await supabase
+            .from('users')
+            .select('name')
+            .eq('id', userID)
+            .single();
+
+        if (fetchError) {
+            console.error('Error fetching user data:', fetchError.message);
+            return;
         }
-    });
+
+        if (userData) {
+            const welcome = document.getElementById('welcome-message');
+            welcome.innerText = `Welcome, ${userData.name}!`;
+        }
+    } else {
+        console.log("No user session found.");
+    }
 });
 
 const logout = document.querySelector('#logout');
-logout.addEventListener('click', (e) => {
+logout.addEventListener('click', async (e) => {
     e.preventDefault();
-    signOut(auth)
-        .then(() => {
-            showMessagePopup('User successfully signed out!', false, '../index.html');
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+        console.error('Error during logout:', error.message);
+    } else {
+        showMessagePopup('User successfully signed out!', false, '../index.html');
+    }
 });
