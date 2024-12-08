@@ -7,14 +7,14 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Extract the access token from the query string
 const urlParams = new URLSearchParams(window.location.search);
-const accessToken = urlParams.get('access_token');
+const accessToken = urlParams.get('access_token'); // Changed to 'access_token'
 console.log("Access Token:", accessToken);
 
-// If no access token is present, show error and redirect
 if (!accessToken) {
     alert("Invalid or expired reset token.");
     window.location.href = '../index.html';
 }
+
 
 // Validation for passwords
 function validate(event) {
