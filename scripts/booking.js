@@ -77,15 +77,26 @@ function populateServicesDropdown(services) {
 document.getElementById("clinics").addEventListener("change", async function () {
     const selectedClinicId = this.value;
     const servicesDropdown = document.getElementById("services");
-    servicesDropdown.innerHTML = ''; // Clear previous options
-    const defaultOption = document.createElement('option');
-    defaultOption.value = '';
-    defaultOption.textContent = 'Select a service';
-    servicesDropdown.appendChild(defaultOption);
+    const timeDropdown = document.getElementById("appointment-time");
+
+    // Clear previous options
+    servicesDropdown.innerHTML = ''; 
+    timeDropdown.innerHTML = ''; 
+
+    // Add default options
+    const defaultServiceOption = document.createElement('option');
+    defaultServiceOption.value = '';
+    defaultServiceOption.textContent = 'Select a service';
+    servicesDropdown.appendChild(defaultServiceOption);
+
+    const defaultTimeOption = document.createElement('option');
+    defaultTimeOption.value = '';
+    defaultTimeOption.textContent = 'Select a time';
+    timeDropdown.appendChild(defaultTimeOption);
 
     if (selectedClinicId) {
         try {
-            // Fetch clinic services from Supabase
+            // Fetch clinic services and schedule from Supabase
             const { data, error } = await supabase
                 .from('clinics')
                 .select('services, schedule') // Fetch services and schedule data
@@ -93,39 +104,81 @@ document.getElementById("clinics").addEventListener("change", async function () 
                 .single();
 
             if (error) {
-                console.error('Error fetching services:', error);
+                console.error('Error fetching clinic details:', error);
             } else {
-                console.log('Clinic services data:', data);
-                populateServicesDropdown(data.services); // Populate services dropdown
-                populateTimeSlots(data.schedule); // Populate available time slots for the clinic
+                console.log('Clinic services and schedule data:', data);
+
+                // Populate services dropdown
+                populateServicesDropdown(data.services);
+
+                // Check if a date is already selected
+                const selectedDate = document.getElementById("appointment-date").value;
+                if (selectedDate) {
+                    populateTimeSlots(data.schedule); // Populate time slots if a date is selected
+                }
             }
         } catch (error) {
             console.error('Error fetching clinic details:', error);
         }
     } else {
-        populateServicesDropdown([]); // Clear services if no clinic selected
+        // Clear dropdowns if no clinic selected
+        populateServicesDropdown([]);
     }
 });
 
-// Function to populate time slots based on the clinic's schedule
-function populateTimeSlots(schedule) {
-    const timeDropdown = document.getElementById("appointment-time");
-    timeDropdown.innerHTML = '';  // Clear previous time slots
+// Event listener for date selection change
+document.getElementById("appointment-date").addEventListener("change", async function () {
+    const selectedDate = this.value;
+    const selectedClinicId = document.getElementById("clinics").value;
 
-    // Create default "Select a time" option
+    if (!selectedDate) {
+        console.error("No date selected");
+        return;
+    }
+
+    if (selectedClinicId) {
+        try {
+            // Fetch clinic schedule from Supabase
+            const { data, error } = await supabase
+                .from('clinics')
+                .select('schedule') // Fetch only schedule data
+                .eq('id', selectedClinicId)
+                .single();
+
+            if (error) {
+                console.error('Error fetching clinic schedule:', error);
+            } else {
+                console.log('Clinic schedule:', data.schedule);
+                populateTimeSlots(data.schedule); // Populate time slots
+            }
+        } catch (error) {
+            console.error('Error fetching clinic schedule:', error);
+        }
+    }
+});
+
+
+function populateTimeSlots(schedule) {
+    const selectedDate = document.getElementById("appointment-date").value;
+
+    if (!selectedDate) {
+        console.error("No date selected");
+        return;
+    }
+
+    const timeDropdown = document.getElementById("appointment-time");
+    timeDropdown.innerHTML = ''; // Clear previous time slots
+
     const defaultOption = document.createElement('option');
     defaultOption.value = '';
     defaultOption.textContent = 'Select a time';
     timeDropdown.appendChild(defaultOption);
 
-    // If clinic is open on selected day, populate time slots
-    const selectedDate = document.getElementById("appointment-date").value;
     const dateObj = new Date(selectedDate);
-    const dayOfWeek = dateObj.toLocaleString('en-us', { weekday: 'long' }); // Example: "Monday"
+    const dayOfWeek = dateObj.toLocaleString('en-us', { weekday: 'long' });
 
     if (schedule[dayOfWeek] && schedule[dayOfWeek].open !== "CLOSED") {
         const { open, close } = schedule[dayOfWeek];
-
         const startTime = parseTime(open);
         const endTime = parseTime(close);
 
@@ -143,17 +196,17 @@ function populateTimeSlots(schedule) {
     }
 }
 
-// Utility function to parse time strings into hours
+// Convert "09:30" to decimal hours (e.g., 9.5)
 function parseTime(timeString) {
-    const [hour, minute] = timeString.split(':');
-    return parseInt(hour, 10) + (parseInt(minute, 10) / 60);  // Convert to decimal hours
+    const [hour, minute] = timeString.split(':').map(Number);
+    return hour + minute / 60; // Convert to decimal hours
 }
 
-// Utility function to format hours as a 24-hour time string
+// Convert decimal hours (e.g., 9.5) to "09:30"
 function formatTime(hour) {
     const hours = Math.floor(hour);
     const minutes = Math.round((hour - hours) * 60);
-    return `${hours}:${minutes < 10 ? '0' : ''}${minutes}`;
+    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
 }
 
 // Initialize the Flatpickr calendar when the document is ready
