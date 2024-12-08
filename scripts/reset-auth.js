@@ -7,7 +7,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Extract the access token from the URL
 const urlParams = new URLSearchParams(window.location.search);
-const accessToken = urlParams.get('access_token');
+const accessToken = urlParams.get('token');
 
 // Validate the token
 if (!accessToken) {
@@ -55,14 +55,23 @@ resetSubmit.addEventListener('click', (e) => {
     validate();
     const newPassword = document.getElementById('signup-password').value;
 
-    // Confirm the password reset using the token
+    // Verify the password reset token
     supabase.auth
-        .resetPasswordForToken(accessToken, newPassword)
-        .then(() => {
-            showMessagePopup('Password has been reset successfully!', '../index.html');
-        })
-        .catch((error) => {
-            console.error("Error resetting password:", error);
-            showMessagePopup('Error resetting password.');
+        .verifyPasswordResetToken(accessToken)
+        .then(({ data, error }) => {
+            if (error) {
+                showMessagePopup('Invalid or expired reset token.', '../index.html');
+            } else {
+                // Proceed with password reset
+                supabase.auth
+                    .updateUser({ password: newPassword })
+                    .then(() => {
+                        showMessagePopup('Password has been reset successfully!', '../index.html');
+                    })
+                    .catch((error) => {
+                        console.error("Error resetting password:", error);
+                        showMessagePopup('Error resetting password.');
+                    });
+            }
         });
 });
