@@ -1,0 +1,319 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: #EDEDED;
+    overflow-x: hidden;
+}
+
+
+.title{
+    margin: 6vh 0vh 6vh 0vh;
+    text-align: center;
+}
+
+/* Updated Image container grid */
+.container-clinics{
+    display: grid;
+    grid-template-columns: 1fr;
+    padding: 20px; /* Padding around the container */
+    margin-bottom: 50px;
+}
+
+@media (min-width: 768px) {
+    .container-clinics {
+        grid-template-columns: repeat(2, 1fr); /* Two columns on medium screens */
+    }
+}
+
+@media (min-width: 1024px) {
+    .container-clinics {
+        grid-template-columns: repeat(3, 1fr); /* Three columns on large screens */
+    }
+}
+
+/* Style individual image boxes */
+.clinic {
+    text-align: center;
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Image inside each box */
+.container-clinics .clinic img {
+    width: 450px;
+    max-height: 325px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 15px;
+    box-shadow: 0 3px 5px grey, 0 2px 6px white;
+}
+
+/* Hover effect to zoom in */
+.clinic:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+.clinic img:hover {
+    box-shadow: 2px 4px 10px 1px grey;
+}
+
+.open-now {
+    font-weight: bold;
+    color: lightgreen;
+}
+
+#modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    background-color: rgb(0, 0, 0); /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+    justify-content: center;
+    align-items: center;
+}
+
+.modals {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+}
+
+#bookAppoint a{
+    background-color: #0578A5;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    box-shadow: 0 1px 3px #0578A5, 0 2px 6px grey;
+    transition: box-shadow 0.5s ease;
+}
+
+.book-btn a {
+    font-size: 20px;
+    text-decoration: none;
+    padding: 15px 30px;
+    border-radius: 10px;
+}
+
+.book-btn button {
+    background-color: transparent;
+    border: none;
+    transition: transform 0.5s ease;
+}
+
+.book-btn button:hover {
+    transform: translateY(-5px);
+}
+
+.book-btn #bookAppoint a:hover {
+    box-shadow: 2px 2px 10px 1px #02658b;
+}
+
+/*CONFIGURE DETAILS INSIDE MODAL*/
+.modal-content {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 1000px;
+    width: auto;
+    max-height: 1000px;
+    padding: 15px 40px;
+}
+
+/* Enlarged image style */
+.modal-content img {
+    width: 393px;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-left: -2px;
+    margin-right: 10px;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 30px;
+    color: white;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Clinic Styles */
+.clinic {
+    cursor: pointer;
+    margin: 20px;
+    text-align: center;
+}
+
+.hour-status {
+    display: flex;
+    align-items: center;
+}
+
+.logo-hours{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.sched-logo{
+    display: flex;
+    flex-direction: column;
+    margin-left: 30px;
+}
+
+.day {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    margin-top: 5px;
+    width: 385px;
+}
+
+.logo-hours i {
+    font-size: 23px;
+}
+
+.logo-hours p {
+    font-size: 18px;
+}
+
+/*status if clinic is open or close*/
+.status {
+    font-weight: 600;
+    margin-left: 130px;
+}
+
+.status.open {
+    color: green;
+}
+
+.status.closed-status {
+    color: red;
+}
+
+.current-day {
+    font-weight: bold; 
+}
+
+.modal-title {
+    display: flex;
+    justify-content: flex-end;
+    align-self: end;
+    padding: 0px 40px;
+    max-width: 50%;
+}
+
+.dentist-services {
+    display: flex;
+    text-align: center;
+    margin-top: 10px;
+    
+}
+
+#dentists {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 50%;
+}
+
+.separator2 {
+    border-left: 1px solid #8F8989;
+    max-height: 400px;
+    margin: 0 20px;
+}
+
+#services {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 50%;
+}
+
+.services {
+    display: flex; /* Use flexbox to arrange columns side by side */
+    justify-content: space-between; /* Space between columns */
+}
+
+.column {
+    width: 48%; /* Adjust width as needed */
+}
+
+#dentists ul {
+    list-style-type: none;
+    font-weight: 450;
+}
+
+#services ul {
+    list-style-type: none;
+    padding-left: 20px;
+    font-weight: 450;
+    margin: 10px 0;
+}
+
+#dentists li, #services li {
+    text-align: left;
+    font-size: 14px;
+    color: #333;
+    line-height: 1.8;
+}
+
+#dentists strong, #services strong {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 18px;
+}
+
+.highlight-day {
+    font-weight: bold;
+}
+
+.highlight-time {
+    font-weight: bold;
+}
+
+.contact-clinics {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    padding-bottom: 10px;
+    text-align: left;
+    font-size: 12px;
+    gap: 5px;
+}
+
+#location i, #facebook i, #email i {
+    font-size: 13px;
+}
+
+#location a, #facebook a {
+    text-decoration: none;
+    color: black;
+}
