@@ -1,8 +1,22 @@
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0/+esm';
+import supabase from './nav-auth.js';
 
-const supabaseUrl = 'https://ucspfnzhoepaxvpigvfm.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVjc3Bmbnpob2VwYXh2cGlndmZtIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTczMjYzNTgwNywiZXhwIjoyMDQ4MjExODA3fQ.nVge6wNQ9SR6seed-nPp8PYchdttzcSlUrogwd2m-qU';
-const supabase = createClient(supabaseUrl, supabaseKey);
+function showMessagePopup(message, redirectUrl = null) {
+    const overlay = document.getElementById('popup-overlay');
+    const popupBox = document.getElementById('popup-box');
+    const popupMessage = document.getElementById('popup-message');
+
+    popupMessage.textContent = message;
+    overlay.style.display = 'block';
+    popupBox.style.display = 'block';
+
+    setTimeout(() => {
+        overlay.style.display = 'none';
+        popupBox.style.display = 'none';
+        if (redirectUrl) {
+            window.location.href = redirectUrl; 
+        }
+    }, 3000);
+}
 
 // Function to populate the clinics dropdown
 async function populateClinicsDropdown() {
@@ -262,46 +276,59 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-// Function to handle appointment submission
-document.getElementById("submit-appointment").addEventListener("click", async function () {
+document.getElementById("submit-appointment").addEventListener("click", async function (event) {
+    event.preventDefault(); // Prevent the default form submission behavior
+
     const clinicId = document.getElementById("clinics").value;
     const service = document.getElementById("services").value;
     const appointmentDate = document.getElementById("appointment-date").value;
     const appointmentTime = document.getElementById("appointment-time").value;
-    const userId = 'user-uuid-here'; // You will need to get the logged-in user's UUID
+
+    // Fetch authenticated user using Supabase v2 auth API
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+
+    if (userError) {
+        console.error("Error fetching user:", userError.message);
+        alert("Failed to fetch the logged-in user. Please log in again.");
+        return;
+    }
+
+    const userId = user?.id || null;
+
+    if (!userId) {
+        alert("User not authenticated. Please log in.");
+        return;
+    }
 
     // Validate required fields
-    if (!clinicId || !service || !appointmentDate || !appointmentTime || !userId) {
+    if (!clinicId || !service || !appointmentDate || !appointmentTime) {
         alert("Please fill out all fields.");
         return;
     }
 
-    // Create appointment data object
     const appointmentData = {
-        clinic_id: clinicId,  // Clinic ID
-        user_id: userId,      // User ID (you may fetch this dynamically from a session)
-        service: service,     // Selected service
-        appointment_date: appointmentDate, // Selected appointment date
-        appointment_time: appointmentTime, // Selected appointment time
-        status: 'pending',    // Default status for new appointments
+        clinic_id: clinicId,
+        user_id: userId,
+        service: service,
+        appointment_date: appointmentDate,
+        appointment_time: appointmentTime,
+        status: 'pending',
     };
 
+    console.log('Payload for appointment:', appointmentData);
+
     try {
-        // Insert the appointment into the Supabase database
-        const { data, error } = await supabase
-            .from('appointments')
-            .insert([appointmentData]);
+        const { data, error } = await supabase.from('appointments').insert([appointmentData]);
 
         if (error) {
             console.error('Error inserting appointment:', error);
-            alert('Failed to book the appointment. Please try again.');
+            showMessagePopup('Failed to book the appointment. Please try again.');
         } else {
-            console.log('Appointment booked:', data);
-            alert('Appointment successfully booked!');
-            // Optionally reset the form or update the UI here
+            console.log('Appointment booked successfully:', data);
+            showMessagePopup('Appointment successfully booked!', 'appointment.html');
         }
     } catch (error) {
-        console.error('Error submitting appointment:', error);
-        alert('An error occurred. Please try again.');
+        console.error('Unexpected error:', error);
+        showMessagePopup('An unexpected error occurred. Please try again.');
     }
 });
