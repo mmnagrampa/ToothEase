@@ -1,33 +1,22 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
-import { getAuth, confirmPasswordReset, verifyPasswordResetCode } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0/+esm';
 
-const firebaseConfig = {
-    apiKey: "AIzaSyC9gZqAF4RoCt1MOJNIYXmGo4FPWf7032U",
-    authDomain: "tootheasee.firebaseapp.com",
-    projectId: "tootheasee",
-    storageBucket: "tootheasee.appspot.com",
-    messagingSenderId: "370145091456",
-    appId: "1:370145091456:web:06c42d2e543f68c4566b65",
-    measurementId: "G-F3HRFTH29X"
-};
+// Supabase credentials
+const supabaseUrl = 'https://ucspfnzhoepaxvpigvfm.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVjc3Bmbnpob2VwYXh2cGlndmZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzI2MzU4MDcsImV4cCI6MjA0ODIxMTgwN30.iw7m3PDLJByvFGZTXsmbEDPxkP28_RYkNh9egJ5BXY4';
+const supabase = createClient(supabaseUrl, supabaseKey);
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-
+// Extract the access token from the query string
 const urlParams = new URLSearchParams(window.location.search);
-const oobCode = urlParams.get('oobCode');
-console.log("oobCode:", oobCode);
+const accessToken = urlParams.get('access_token');
+console.log("Access Token:", accessToken);
 
-verifyPasswordResetCode(auth, oobCode)
-    .then((email) => {
-        console.log("Valid code for email:", email);
-    })
-    .catch((error) => {
-        console.error("Error verifying code:", error);
-        alert("Invalid or expired code.");
-        window.location.href = '../index.html';
-    });
+// If no access token is present, show error and redirect
+if (!accessToken) {
+    alert("Invalid or expired reset token.");
+    window.location.href = '../index.html';
+}
 
+// Validation for passwords
 function validate(event) {
     const password = document.getElementById('signup-password').value;
     const confirmPassword = document.getElementById('confirm-password').value;
@@ -35,14 +24,14 @@ function validate(event) {
     if (password !== confirmPassword) {
         message.hidden = false;
         message.style.color = 'red';
-        message.innerHTML = 'Passwords do not match';
+        message.innerHTML = 'Passwords do not match.';
         event.preventDefault();
     } else {
         message.hidden = true;
-        return;
     }
 }
 
+// Show message popup
 function showMessagePopup(message, redirectUrl = null) {
     const overlay = document.getElementById('popup-overlay');
     const popupBox = document.getElementById('popup-box');
@@ -56,24 +45,34 @@ function showMessagePopup(message, redirectUrl = null) {
         overlay.style.display = 'none';
         popupBox.style.display = 'none';
         if (redirectUrl) {
-            window.location.href = redirectUrl; 
+            window.location.href = redirectUrl;
         }
     }, 3000);
 }
 
-
+// Reset password on form submission
 const resetSubmit = document.getElementById('submit');
-resetSubmit.addEventListener('click', (e) => {
+resetSubmit.addEventListener('click', async (e) => {
     e.preventDefault();
-    validate();
+    validate(e);
+
     const newPassword = document.getElementById('signup-password').value;
 
-    confirmPasswordReset(auth, oobCode, newPassword)
-        .then(() => {
-            showMessagePopup('Password has been reset successfully!', '../index.html');
-        })
-        .catch((error) => {
-            console.error("Error resetting password:", error);
-            showMessagePopup('Error resetting password.');
+    try {
+        const { error } = await supabase.auth.updateUser({
+            password: newPassword,
+        }, {
+            access_token: accessToken,
         });
+
+        if (error) {
+            console.error("Error resetting password:", error.message);
+            showMessagePopup('Error resetting password.');
+        } else {
+            showMessagePopup('Password has been reset successfully!', '../index.html');
+        }
+    } catch (error) {
+        console.error("Unexpected error:", error);
+        showMessagePopup('Unexpected error resetting password.');
+    }
 });

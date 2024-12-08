@@ -1,20 +1,8 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-analytics.js";
-import { getAuth, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0/+esm';
 
-const firebaseConfig = {
-    apiKey: "AIzaSyC9gZqAF4RoCt1MOJNIYXmGo4FPWf7032U",
-    authDomain: "tootheasee.firebaseapp.com",
-    projectId: "tootheasee",
-    storageBucket: "tootheasee.appspot.com",
-    messagingSenderId: "370145091456",
-    appId: "1:370145091456:web:06c42d2e543f68c4566b65",
-    measurementId: "G-F3HRFTH29X"
-};
-
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const auth = getAuth(app);
+const supabaseUrl = 'https://ucspfnzhoepaxvpigvfm.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVjc3Bmbnpob2VwYXh2cGlndmZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzI2MzU4MDcsImV4cCI6MjA0ODIxMTgwN30.iw7m3PDLJByvFGZTXsmbEDPxkP28_RYkNh9egJ5BXY4';
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 function showMessagePopup(message, reload = false, redirectUrl = null) {
     const overlay = document.getElementById('popup-overlay');
@@ -31,27 +19,31 @@ function showMessagePopup(message, reload = false, redirectUrl = null) {
         if (reload) {
             window.location.reload();
         } else if (redirectUrl) {
-            window.location.href = redirectUrl; 
+            window.location.href = redirectUrl;
         }
     }, 3000);
 }
 
 const forgotPass = document.getElementById('submit');
 const errorMessage = document.getElementById('error-message');
-forgotPass.addEventListener('click', (e) => {
+forgotPass.addEventListener('click', async (e) => {
     e.preventDefault();
     const email = document.getElementById('email').value;
-    sendPasswordResetEmail(auth, email)
-        .then(() => {
-            showMessagePopup('An email has been sent to reset your password.', false, '../index.html');
-        })
-        .catch((error) => {
-            const eCode = error.code;
-            if(eCode === 'auth/invalid-email') {
-                errorMessage.hidden = false;
-                errorMessage.style.color = 'red';
-                errorMessage.innerHTML = 'Email is invalid, please try again!';
-                e.preventDefault();
-            }
+
+    try {
+        const { error } = await supabase.auth.resetPasswordForEmail(email, {
+            redirectTo: 'https://toothease.vercel.app/views/resetpassword.html' // Replace with your actual redirect URL
         });
-})
+
+        if (error) {
+            throw error;
+        }
+        
+        showMessagePopup('An email has been sent to reset your password.', false, '../index.html');
+    } catch (error) {
+        console.error('Error sending reset email:', error.message);
+        errorMessage.hidden = false;
+        errorMessage.style.color = 'red';
+        errorMessage.innerHTML = 'Email is invalid or not found, please try again!';
+    }
+});
