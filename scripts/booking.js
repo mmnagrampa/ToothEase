@@ -1,8 +1,8 @@
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0/+esm'
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0/+esm';
 
-  const supabaseUrl = 'https://ucspfnzhoepaxvpigvfm.supabase.co';
-  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVjc3Bmbnpob2VwYXh2cGlndmZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzI2MzU4MDcsImV4cCI6MjA0ODIxMTgwN30.iw7m3PDLJByvFGZTXsmbEDPxkP28_RYkNh9egJ5BXY4';
-  const supabase = createClient(supabaseUrl, supabaseKey);
+const supabaseUrl = 'https://ucspfnzhoepaxvpigvfm.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVjc3Bmbnpob2VwYXh2cGlndmZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzI2MzU4MDcsImV4cCI6MjA0ODIxMTgwN30.iw7m3PDLJByvFGZTXsmbEDPxkP28_RYkNh9egJ5BXY4';
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Function to populate the clinics dropdown
 async function populateClinicsDropdown() {
@@ -116,6 +116,9 @@ document.getElementById("clinics").addEventListener("change", async function () 
                 if (selectedDate) {
                     populateTimeSlots(data.schedule); // Populate time slots if a date is selected
                 }
+
+                // Update the calendar with closed days
+                updateCalendarWithClosedDays(data.schedule);
             }
         } catch (error) {
             console.error('Error fetching clinic details:', error);
@@ -157,7 +160,7 @@ document.getElementById("appointment-date").addEventListener("change", async fun
     }
 });
 
-
+// Function to populate time slots for the selected date
 function populateTimeSlots(schedule) {
     const selectedDate = document.getElementById("appointment-date").value;
 
@@ -209,7 +212,46 @@ function formatTime(hour) {
     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
 }
 
-// Initialize the Flatpickr calendar when the document is ready
+// Function to update the calendar with closed days
+function updateCalendarWithClosedDays(schedule) {
+    const closedDays = [];
+    Object.keys(schedule).forEach(day => {
+        if (schedule[day].open === "CLOSED") {
+            closedDays.push(day);
+        }
+    });
+
+    const dayMap = {
+        Sunday: 0,
+        Monday: 1,
+        Tuesday: 2,
+        Wednesday: 3,
+        Thursday: 4,
+        Friday: 5,
+        Saturday: 6
+    };
+
+    const closedDayNumbers = closedDays.map(day => dayMap[day]);
+
+    flatpickr("#appointment-date", {
+        minDate: "today", // Disable past dates
+        dateFormat: "Y-m-d", // Format the date
+        disable: [
+            function (date) {
+                return closedDayNumbers.includes(date.getDay());
+            }
+        ],
+        onDayCreate: function (dObj, dStr, fp, dayElem) {
+            const date = dayElem.dateObj;
+            if (closedDayNumbers.includes(date.getDay())) {
+                dayElem.title = "Clinic is closed on this day";
+                dayElem.classList.add("flatpickr-closed-day");  // Add class for styling
+            }
+        }
+    });
+}
+
+// Initialize the page
 document.addEventListener("DOMContentLoaded", function () {
     populateClinicsDropdown();  // Populate clinics on page load
 
@@ -218,4 +260,48 @@ document.addEventListener("DOMContentLoaded", function () {
         minDate: "today", // Disable past dates
         dateFormat: "Y-m-d", // Format the date
     });
+});
+
+// Function to handle appointment submission
+document.getElementById("submit-appointment").addEventListener("click", async function () {
+    const clinicId = document.getElementById("clinics").value;
+    const service = document.getElementById("services").value;
+    const appointmentDate = document.getElementById("appointment-date").value;
+    const appointmentTime = document.getElementById("appointment-time").value;
+    const userId = 'user-uuid-here'; // You will need to get the logged-in user's UUID
+
+    // Validate required fields
+    if (!clinicId || !service || !appointmentDate || !appointmentTime || !userId) {
+        alert("Please fill out all fields.");
+        return;
+    }
+
+    // Create appointment data object
+    const appointmentData = {
+        clinic_id: clinicId,  // Clinic ID
+        user_id: userId,      // User ID (you may fetch this dynamically from a session)
+        service: service,     // Selected service
+        appointment_date: appointmentDate, // Selected appointment date
+        appointment_time: appointmentTime, // Selected appointment time
+        status: 'pending',    // Default status for new appointments
+    };
+
+    try {
+        // Insert the appointment into the Supabase database
+        const { data, error } = await supabase
+            .from('appointments')
+            .insert([appointmentData]);
+
+        if (error) {
+            console.error('Error inserting appointment:', error);
+            alert('Failed to book the appointment. Please try again.');
+        } else {
+            console.log('Appointment booked:', data);
+            alert('Appointment successfully booked!');
+            // Optionally reset the form or update the UI here
+        }
+    } catch (error) {
+        console.error('Error submitting appointment:', error);
+        alert('An error occurred. Please try again.');
+    }
 });
