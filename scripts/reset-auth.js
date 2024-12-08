@@ -61,20 +61,12 @@ resetSubmit.addEventListener('click', async (e) => {
     }
 
     try {
-        // Set the session using the access token
-        const { error: sessionError } = await supabase.auth.setSession({
+        // Use the access token directly for password reset
+        const { data, error } = await supabase.auth.updateUser({
             access_token: accessToken,
-            refresh_token: null, // Pass null as refresh_token is not available
+            password: newPassword,
         });
 
-        if (sessionError) {
-            console.error('Error setting session:', sessionError);
-            showMessagePopup('Failed to authenticate. Please try again.', '../index.html');
-            return;
-        }
-
-        // Update the user password
-        const { data, error } = await supabase.auth.updateUser({ password: newPassword });
         if (error) {
             console.error('Error resetting password:', error);
             showMessagePopup('Error resetting password. Please try again.');
