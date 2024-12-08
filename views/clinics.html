@@ -6,6 +6,7 @@
         <title>Clinics | ToothEase</title>
         <link rel="stylesheet" href="../styles/footer.css">
         <link rel="stylesheet" href="../styles/nav-bar.css">
+        <link rel="stylesheet" href="../styles/clinics.css">
         <link rel="shortcut icon" type="x-icon" href="../img/logo.png" sizes="64x64">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -47,9 +48,135 @@
                     </div>
                 </div>
             </nav>
-            
         </header> 
+
+        <h1 class="title">Find dental care nearby and book in a few clicks.</h1>
+
+        <div class="container-clinics">
+
+            <!-- CLINIC 1-->
+            <div class="clinic" onclick="showModal('clinic1')">
+                <img src="../img/dental-aesthetics.jpg" alt="Clinic 1">
+                <h3>Dental Aesthetics</h3>
+            </div>
+            
+            <!-- CLINIC 2-->
+            <div class="clinic" onclick="showModal('clinic2')">
+                <img src="../img/city-smiles.jpg" alt="Clinic 2">
+                <h3>City Smiles</h3>
+            </div>
+
+            <!-- CLINIC 3-->
+            <div class="clinic" onclick="showModal('clinic3')">
+                <img src="../img/respall-dental.jpg" alt="Clinic 3">
+                <h3>Respall Dental Clinic</h3>
+            </div>
+
+            <!-- CLINIC 4-->
+            <div class="clinic" onclick="showModal('clinic4')">
+                <img src="../img/Yorobe Dental Clinic.jpg" alt="Clinic 4">
+                <h3>Yorobe Dental Clinic</h3>
+            </div>
+
+            <!-- CLINIC 5-->
+            <div class="clinic" onclick="showModal('clinic5')">
+                <img src="../img/Juan Smile.jpg" alt="Clinic 5">
+                <h3>Juan Smile Dental Clinic</h3>
+            </div>
+
+            <!-- CLINIC 6-->
+            <div class="clinic" onclick="showModal('clinic6')">
+                <img src="../img/villegas11.jpg" alt="Clinic 6">
+                <h3>M.E. Villegas Dental Clinic</h3>
+            </div>
+
+            <!-- CLINIC 7-->
+            <div class="clinic" onclick="showModal('clinic7')">
+                <img src="../img/Bichara.jpg" alt="Clinic 7">
+                <h3>Bichara Dental Clinic</h3>
+            </div>
+
+            <!-- CLINIC 8-->
+            <div class="clinic" onclick="showModal('clinic8')">
+                <img src="../img/mazedental.png" alt="Clinic 8">
+                <h3>Maze Dental Care</h3>
+            </div>
+
+            <!-- CLINIC 9-->
+            <div class="clinic" onclick="showModal('clinic9')">
+                <img src="../img/Rosales.png" alt="Clinic 9">
+                <h3>R.P. Rosales Dental Clinic</h3>
+            </div>
+
+            <!-- Modal Structure -->
+            <div id="modal">
+                <div class="modals">
+                    <div class="modal-content">
+                        <span class="close" onclick="closeModal()">&times;</span>
+                        <div class="modal-title">
+                            <h2 id="clinic-name"></h2>
+                        </div>
+                        <div id="status"></div>
+    
+                        <!--IMAGE AND SCHEDULE-->
+                        <div class="hour-status">
+                            <div class="pic-clinic">
+                                <img id="clinic-image" src="" alt="Clinic Image">
+                            </div>
+                            <div class="sched-logo">
+                                <div class="logo-hours">
+                                    <i class="fa-solid fa-clock" style="color: #8d8d8d;"></i>
+                                    <p>Hours</p>
+                                </div>
+                                <div id="schedule"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="dentist-services">
+                            <div id="dentists"></div>
+                            <div class="separator2"></div>
+                            <div id="services"></div>
+                        </div>
+    
+                        <div class="contact-clinics">
+                            <div class="loc-container">
+                                <div id="location"></div>
+                            </div>
+                            <div class="fb-container">
+                                <div id="facebook"></div>
+                            </div>
+                            <div class="email-container">
+                                <div id="email"></div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="book-btn">
+                        <button id="bookAppoint"><a href="booking.html" id="bookAppoint">Book Appointment Now!</a></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER DEETS -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <div class="footer-logo">
+                        <img src="../img/logo.png" alt="Logo">
+                    </div>
+                    <h1>ToothEase</h1>
+                    <a href="#"><i class='bx bxl-facebook-circle'></i></a>
+                    <a href="#"><i class='bx bxl-instagram'></i></a>
+                    <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+                </div>
+                <div class="footer-credits">
+                    <p>&copy;ToothEase. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
         <script type='module' src="../scripts/nav-auth.js"></script>
         <script src="../scripts/nav-bar.js"></script>
+        <script src="../scripts/clinics.js"></script>
     </body>
 </html>
