@@ -1,4 +1,5 @@
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0/+esm';
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.19.0/+esm';
+
 
 // Supabase credentials
 const supabaseUrl = 'https://ucspfnzhoepaxvpigvfm.supabase.co';
@@ -64,9 +65,9 @@ resetSubmit.addEventListener('click', async (e) => {
         // Use the access_token directly to reset the password
         const { data, error } = await supabase.auth.verifyOTP({
             type: 'recovery',
-            token: accessToken,
-            password: newPassword,
-        });
+            token: accessToken, // The access token from the URL
+            password: newPassword, // The new password to set
+        });        
 
         if (error) {
             console.error('Error resetting password:', error);
