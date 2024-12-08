@@ -16,6 +16,26 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth(app);
 
+function showMessagePopup(message, reload = false, redirectUrl = null) {
+    const overlay = document.getElementById('popup-overlay');
+    const popupBox = document.getElementById('popup-box');
+    const popupMessage = document.getElementById('popup-message');
+
+    popupMessage.textContent = message;
+    overlay.style.display = 'block';
+    popupBox.style.display = 'block';
+
+    setTimeout(() => {
+        overlay.style.display = 'none';
+        popupBox.style.display = 'none';
+        if (reload) {
+            window.location.reload();
+        } else if (redirectUrl) {
+            window.location.href = redirectUrl; 
+        }
+    }, 3000);
+}
+
 const forgotPass = document.getElementById('submit');
 const errorMessage = document.getElementById('error-message');
 forgotPass.addEventListener('click', (e) => {
@@ -23,8 +43,7 @@ forgotPass.addEventListener('click', (e) => {
     const email = document.getElementById('email').value;
     sendPasswordResetEmail(auth, email)
         .then(() => {
-            alert('An email has been sent to reset your password.');
-            window.location.href = '../index.html';
+            showMessagePopup('An email has been sent to reset your password.', false, '../index.html');
         })
         .catch((error) => {
             const eCode = error.code;

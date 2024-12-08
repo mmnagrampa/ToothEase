@@ -11,16 +11,13 @@ const firebaseConfig = {
     measurementId: "G-F3HRFTH29X"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// Extract oobCode from URL
 const urlParams = new URLSearchParams(window.location.search);
 const oobCode = urlParams.get('oobCode');
 console.log("oobCode:", oobCode);
 
-// Verify the oobCode
 verifyPasswordResetCode(auth, oobCode)
     .then((email) => {
         console.log("Valid code for email:", email);
@@ -31,15 +28,40 @@ verifyPasswordResetCode(auth, oobCode)
         window.location.href = '../index.html';
     });
 
-// Validate function for password match
 function validate(event) {
     const password = document.getElementById('signup-password').value;
     const confirmPassword = document.getElementById('confirm-password').value;
-    if (password != confirmPassword) 
+    const message = document.getElementById('message');
+    if (password !== confirmPassword) {
+        message.hidden = false;
+        message.style.color = 'red';
+        message.innerHTML = 'Passwords do not match';
         event.preventDefault();
+    } else {
+        message.hidden = true;
+        return;
+    }
 }
 
-// Handle form submission
+function showMessagePopup(message, redirectUrl = null) {
+    const overlay = document.getElementById('popup-overlay');
+    const popupBox = document.getElementById('popup-box');
+    const popupMessage = document.getElementById('popup-message');
+
+    popupMessage.textContent = message;
+    overlay.style.display = 'block';
+    popupBox.style.display = 'block';
+
+    setTimeout(() => {
+        overlay.style.display = 'none';
+        popupBox.style.display = 'none';
+        if (redirectUrl) {
+            window.location.href = redirectUrl; 
+        }
+    }, 3000);
+}
+
+
 const resetSubmit = document.getElementById('submit');
 resetSubmit.addEventListener('click', (e) => {
     e.preventDefault();
@@ -48,14 +70,12 @@ resetSubmit.addEventListener('click', (e) => {
 
     const newPassword = document.getElementById('signup-password').value;
 
-    // Reset the password
     confirmPasswordReset(auth, oobCode, newPassword)
         .then(() => {
-            alert("Password has been reset successfully!");
-            window.location.href = '../index.html'; // Redirect to the desired page
+            showMessagePopup('Password has been reset successfully!', '../index.html');
         })
         .catch((error) => {
             console.error("Error resetting password:", error);
-            alert("Error resetting password: " + error.message);
+            showMessagePopup('Error resetting password.');
         });
 });

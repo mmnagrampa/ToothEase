@@ -16,8 +16,28 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
+function showMessagePopup(message, reload = false, redirectUrl = null) {
+    const overlay = document.getElementById('popup-overlay');
+    const popupBox = document.getElementById('popup-box');
+    const popupMessage = document.getElementById('popup-message');
+
+    popupMessage.textContent = message;
+    overlay.style.display = 'block';
+    popupBox.style.display = 'block';
+
+    setTimeout(() => {
+        overlay.style.display = 'none';
+        popupBox.style.display = 'none';
+        if (reload) {
+            window.location.reload();
+        } else if (redirectUrl) {
+            window.location.href = redirectUrl; 
+        }
+    }, 3000);
+}
+
 document.addEventListener("DOMContentLoaded", () => {
-    onAuthStateChanged(auth, async(user) => {
+    onAuthStateChanged(auth, async (user) => {
         if (user) {
             const userID = user.uid;
             const userDocRef = doc(db, 'users', userID);
@@ -31,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             console.log("User does not exist");
         }
-    })
+    });
 });
 
 const logout = document.querySelector('#logout');
@@ -39,10 +59,9 @@ logout.addEventListener('click', (e) => {
     e.preventDefault();
     signOut(auth)
         .then(() => {
-            alert('User successfully signed out!');
-            window.location.href = '../index.html';
+            showMessagePopup('User successfully signed out!', false, '../index.html');
         })
         .catch((error) => {
             console.log(error);
-        })
-})
+        });
+});
