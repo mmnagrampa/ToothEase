@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (user) {
         console.log('User info:', user);
-        const userID = user.id;
+        const userID = user.user_id;
 
         // Fetch user data from Supabase
         const { data: userData, error: fetchError } = await supabase
