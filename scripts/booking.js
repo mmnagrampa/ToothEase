@@ -293,7 +293,7 @@ document.getElementById("submit-appointment").addEventListener("click", async fu
         return;
     }
 
-    const userId = user?.id || null;
+    const userId = user?.user_id || null;
 
     if (!userId) {
         alert("User not authenticated. Please log in.");
