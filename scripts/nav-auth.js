@@ -1,6 +1,5 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0/+esm';
 
-// Supabase credentials
 const supabaseUrl = 'https://ucspfnzhoepaxvpigvfm.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVjc3Bmbnpob2VwYXh2cGlndmZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzI2MzU4MDcsImV4cCI6MjA0ODIxMTgwN30.iw7m3PDLJByvFGZTXsmbEDPxkP28_RYkNh9egJ5BXY4';
 const supabase = createClient(supabaseUrl, supabaseKey);
@@ -39,17 +38,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         const user = session?.user;
 
-        // Check if user exists
-        if (!user || !user.user_id) {
+        if (!user || !user.id) {
             console.log("No user session found or user_id is missing.");
             showMessagePopup('No user session found. Please log in.');
             return;
         }
 
         console.log('User info:', user);
-        const userID = user.user_id;
+        const userID = user.id; 
 
-        // Fetch user data from Supabase
         const { data: userData, error: fetchError } = await supabase
             .from('users')
             .select('name')

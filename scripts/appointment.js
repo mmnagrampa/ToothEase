@@ -4,8 +4,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const appointmentsContainer = document.querySelector('.book-appointment');
 
     try {
-        // Get the current logged-in user using `getUser`
-        const { data: user, error: userError } = await supabase.auth.getUser();
+        const { data: { user }, error: userError } = await supabase.auth.getUser();
 
         if (userError) {
             console.error('Error fetching user:', userError);
@@ -14,39 +13,36 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         if (!user) {
-            // If no user is logged in, show a message or redirect to login
             displayMessage('Please log in to view your appointments.');
             return;
         }
 
-        // Fetch appointments for the specific user with clinic name
+        const userId = user.id;
+
         const { data: appointments, error } = await supabase
             .from('appointments')
             .select(`
                 *,
                 clinics!appointments_clinic_id_fkey(name)
             `)
-            .eq('user_id', user.user_id)  // Filter by the user's ID
+            .eq('user_id', userId) 
             .order('appointment_date', { ascending: true });
 
         if (error) {
-            console.error('Error fetching appointments:', error);
-            displayMessage('Error loading appointments. Please try again.');
+            console.error('Error fetching appointments:', error.message);
+            displayMessage(`Error loading appointments: ${error.message}`);
             return;
         }
 
         if (!appointments || appointments.length === 0) {
-            // Show 'No Booked Appointments' message if no appointments are found
             const noBookElement = document.querySelector('.no-book');
             noBookElement.style.display = 'block';
             return;
         }
 
-        // Hide the 'No Booked Appointments' message
         const noBookElement = document.querySelector('.no-book');
         noBookElement.style.display = 'none';
 
-        // Generate HTML for appointments
         const appointmentsHtml = appointments.map(appointment => {
             const formattedTime = formatTime(appointment.appointment_time);
             const clinicName = appointment.clinics?.name || 'Unknown Clinic';
@@ -62,7 +58,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             `;
         }).join('');
 
-        // Append appointments to the container
         const appointmentsList = document.createElement('div');
         appointmentsList.className = 'appointments-list';
         appointmentsList.innerHTML = appointmentsHtml;
@@ -74,7 +69,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-// Utility function to display popup messages
 function displayMessage(message) {
     const popupOverlay = document.getElementById('popup-overlay');
     const popupBox = document.getElementById('popup-box');
@@ -90,7 +84,6 @@ function displayMessage(message) {
     }, 3000);
 }
 
-// Utility function to format time in 24-hour format with seconds
 function formatTime(time) {
     const [hours, minutes, seconds] = time.split(':').map(Number);
     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;

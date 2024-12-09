@@ -18,32 +18,23 @@ function showMessagePopup(message, redirectUrl = null) {
     }, 3000);
 }
 
-// Function to populate the clinics dropdown
 async function populateClinicsDropdown() {
     const clinicsDropdown = document.getElementById("clinics");
-
-    // Clear previous options before adding new ones
-    clinicsDropdown.innerHTML = '';
-
-    // Add default "Select a clinic" option
+    clinicsDropdown.innerHTML = ''; 
     const defaultOption = document.createElement('option');
     defaultOption.value = '';
     defaultOption.textContent = 'Select a clinic';
     clinicsDropdown.appendChild(defaultOption);
 
     try {
-        // Get clinics from Supabase database
         const { data, error } = await supabase.from('clinics').select('clinic_id, name');
         if (error) {
             console.error('Error fetching clinics:', error);
+            showMessagePopup('Error fetching clinics. Please try again.');
             return;
         }
 
-        // Debug: Log fetched clinic data
-        console.log('Clinics data:', data);
-
         if (data && data.length > 0) {
-            // Populate dropdown with clinics
             data.forEach((clinic) => {
                 const option = document.createElement("option");
                 option.value = clinic.clinic_id;
@@ -51,28 +42,25 @@ async function populateClinicsDropdown() {
                 clinicsDropdown.appendChild(option);
             });
         } else {
-            // If no clinics, show a message
             const option = document.createElement('option');
             option.textContent = 'No clinics available';
             clinicsDropdown.appendChild(option);
         }
     } catch (error) {
         console.error('Error fetching clinics:', error);
+        showMessagePopup('Error fetching clinics. Please try again.');
     }
 }
 
-// Function to populate the services dropdown
 function populateServicesDropdown(services) {
     const servicesDropdown = document.getElementById("services");
-    servicesDropdown.innerHTML = ''; // Clear previous options
+    servicesDropdown.innerHTML = ''; 
 
-    // Add default "Select a service" option
     const defaultOption = document.createElement('option');
     defaultOption.value = '';
     defaultOption.textContent = 'Select a service';
     servicesDropdown.appendChild(defaultOption);
 
-    // Check if services are available
     if (services && services.length > 0) {
         services.forEach(service => {
             const option = document.createElement('option');
@@ -87,17 +75,13 @@ function populateServicesDropdown(services) {
     }
 }
 
-// Event listener for clinic selection change
 document.getElementById("clinics").addEventListener("change", async function () {
     const selectedClinicId = this.value;
     const servicesDropdown = document.getElementById("services");
     const timeDropdown = document.getElementById("appointment-time");
-
-    // Clear previous options
     servicesDropdown.innerHTML = ''; 
     timeDropdown.innerHTML = ''; 
 
-    // Add default options
     const defaultServiceOption = document.createElement('option');
     defaultServiceOption.value = '';
     defaultServiceOption.textContent = 'Select a service';
@@ -110,40 +94,35 @@ document.getElementById("clinics").addEventListener("change", async function () 
 
     if (selectedClinicId) {
         try {
-            // Fetch clinic services and schedule from Supabase
             const { data, error } = await supabase
                 .from('clinics')
-                .select('services, schedule') // Fetch services and schedule data
+                .select('services, schedule')
                 .eq('clinic_id', selectedClinicId)
                 .single();
 
             if (error) {
                 console.error('Error fetching clinic details:', error);
-            } else {
-                console.log('Clinic services and schedule data:', data);
-
-                // Populate services dropdown
-                populateServicesDropdown(data.services);
-
-                // Check if a date is already selected
-                const selectedDate = document.getElementById("appointment-date").value;
-                if (selectedDate) {
-                    populateTimeSlots(data.schedule); // Populate time slots if a date is selected
-                }
-
-                // Update the calendar with closed days
-                updateCalendarWithClosedDays(data.schedule);
+                showMessagePopup('Error fetching clinic details. Please try again.');
+                return;
             }
+
+            populateServicesDropdown(data.services);
+
+            const selectedDate = document.getElementById("appointment-date").value;
+            if (selectedDate) {
+                populateTimeSlots(data.schedule); 
+            }
+
+            updateCalendarWithClosedDays(data.schedule);
         } catch (error) {
             console.error('Error fetching clinic details:', error);
+            showMessagePopup('Error fetching clinic details. Please try again.');
         }
     } else {
-        // Clear dropdowns if no clinic selected
         populateServicesDropdown([]);
     }
 });
 
-// Event listener for date selection change
 document.getElementById("appointment-date").addEventListener("change", async function () {
     const selectedDate = this.value;
     const selectedClinicId = document.getElementById("clinics").value;
@@ -155,36 +134,33 @@ document.getElementById("appointment-date").addEventListener("change", async fun
 
     if (selectedClinicId) {
         try {
-            // Fetch clinic schedule from Supabase
             const { data, error } = await supabase
                 .from('clinics')
-                .select('schedule') // Fetch only schedule data
+                .select('schedule')
                 .eq('clinic_id', selectedClinicId)
                 .single();
 
             if (error) {
                 console.error('Error fetching clinic schedule:', error);
-            } else {
-                console.log('Clinic schedule:', data.schedule);
-                populateTimeSlots(data.schedule); // Populate time slots
+                return;
             }
+
+            populateTimeSlots(data.schedule);
         } catch (error) {
             console.error('Error fetching clinic schedule:', error);
         }
     }
 });
 
-// Function to populate time slots for the selected date
 function populateTimeSlots(schedule) {
     const selectedDate = document.getElementById("appointment-date").value;
-
     if (!selectedDate) {
         console.error("No date selected");
         return;
     }
 
     const timeDropdown = document.getElementById("appointment-time");
-    timeDropdown.innerHTML = ''; // Clear previous time slots
+    timeDropdown.innerHTML = ''; 
 
     const defaultOption = document.createElement('option');
     defaultOption.value = '';
@@ -213,20 +189,17 @@ function populateTimeSlots(schedule) {
     }
 }
 
-// Convert "09:30" to decimal hours (e.g., 9.5)
 function parseTime(timeString) {
     const [hour, minute] = timeString.split(':').map(Number);
-    return hour + minute / 60; // Convert to decimal hours
+    return hour + minute / 60;
 }
 
-// Convert decimal hours (e.g., 9.5) to "09:30"
 function formatTime(hour) {
     const hours = Math.floor(hour);
     const minutes = Math.round((hour - hours) * 60);
     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
 }
 
-// Function to update the calendar with closed days
 function updateCalendarWithClosedDays(schedule) {
     const closedDays = [];
     Object.keys(schedule).forEach(day => {
@@ -248,8 +221,8 @@ function updateCalendarWithClosedDays(schedule) {
     const closedDayNumbers = closedDays.map(day => dayMap[day]);
 
     flatpickr("#appointment-date", {
-        minDate: "today", // Disable past dates
-        dateFormat: "Y-m-d", // Format the date
+        minDate: "today", 
+        dateFormat: "Y-m-d",
         disable: [
             function (date) {
                 return closedDayNumbers.includes(date.getDay());
@@ -259,32 +232,29 @@ function updateCalendarWithClosedDays(schedule) {
             const date = dayElem.dateObj;
             if (closedDayNumbers.includes(date.getDay())) {
                 dayElem.title = "Clinic is closed on this day";
-                dayElem.classList.add("flatpickr-closed-day");  // Add class for styling
+                dayElem.classList.add("flatpickr-closed-day");
             }
         }
     });
 }
 
-// Initialize the page
 document.addEventListener("DOMContentLoaded", function () {
-    populateClinicsDropdown();  // Populate clinics on page load
+    populateClinicsDropdown();  
 
-    // Initialize Flatpickr calendar
     flatpickr("#appointment-date", {
-        minDate: "today", // Disable past dates
-        dateFormat: "Y-m-d", // Format the date
+        minDate: "today", 
+        dateFormat: "Y-m-d", 
     });
 });
 
 document.getElementById("submit-appointment").addEventListener("click", async function (event) {
-    event.preventDefault(); // Prevent the default form submission behavior
+    event.preventDefault(); 
 
     const clinicId = document.getElementById("clinics").value;
     const service = document.getElementById("services").value;
     const appointmentDate = document.getElementById("appointment-date").value;
     const appointmentTime = document.getElementById("appointment-time").value;
 
-    // Fetch authenticated user using Supabase v2 auth API
     const { data: { user }, error: userError } = await supabase.auth.getUser();
 
     if (userError) {
@@ -293,14 +263,13 @@ document.getElementById("submit-appointment").addEventListener("click", async fu
         return;
     }
 
-    const userId = user?.user_id || null;
+    const userId = user?.id || null;
 
     if (!userId) {
         alert("User not authenticated. Please log in.");
         return;
     }
 
-    // Validate required fields
     if (!clinicId || !service || !appointmentDate || !appointmentTime) {
         alert("Please fill out all fields.");
         return;
