@@ -193,5 +193,5 @@ function displayMessage(message) {
 // Utility function to format time in 24-hour format with seconds
 function formatTime(time) {
     const [hours, minutes, seconds] = time.split(':').map(Number);
-    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
 }
