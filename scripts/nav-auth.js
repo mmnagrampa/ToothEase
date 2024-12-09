@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
         console.log('User info:', user);
-        const userID = user.id; 
+        const userID = user.id;
 
         const { data: userData, error: fetchError } = await supabase
             .from('users')
@@ -65,6 +65,37 @@ document.addEventListener("DOMContentLoaded", async () => {
                 welcome.innerText = `Welcome, Admin ${userData.name}!`;
             } else {
                 welcome.innerText = `Welcome, ${userData.name}!`;
+            }
+
+            const editProfileBtn = document.getElementById('editProfile');
+            if (editProfileBtn) {
+                editProfileBtn.addEventListener('click', async () => {
+                    const newName = prompt("Enter your new name:");
+
+                    if (newName) {
+                        const welcome = document.getElementById('welcome-message');
+                        
+                        welcome.innerText = `Updating your profile...`;
+                
+                        try {
+                            const { error } = await supabase
+                                .from('users')
+                                .update({ name: newName })
+                                .eq('user_id', userID);
+                
+                            if (error) {
+                                console.error('Error updating profile:', error.message);
+                                showMessagePopup('Error updating profile. Please try again.');
+                            } else {
+                                welcome.innerText = `Welcome, ${newName}!`;
+                                showMessagePopup('Profile updated successfully!', true);
+                            }
+                        } catch (err) {
+                            console.error('Unexpected error during profile update:', err);
+                            showMessagePopup('An unexpected error occurred. Please try again.');
+                        }
+                    }
+                });
             }
         }
     } catch (err) {
