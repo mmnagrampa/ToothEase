@@ -9,6 +9,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 const urlParams = new URLSearchParams(window.location.search);
 const accessToken = urlParams.get('access_token'); // Use `access_token` from the URL
 console.log('Access Token:', accessToken); // Debugging
+console.log('Email:', email); 
 
 // Function to display messages
 function showMessagePopup(message, redirectUrl = null) {
