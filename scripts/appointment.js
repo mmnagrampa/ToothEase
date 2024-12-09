@@ -19,11 +19,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const userId = user.id;
 
-        // Check if the logged-in user is an admin
         const { data: userProfile, error: profileError } = await supabase
             .from('users')
             .select('is_admin')
-            .eq('user_id', userId) // Use user_id here
+            .eq('user_id', userId) 
             .single();
 
         if (profileError) {
@@ -35,7 +34,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         const isAdmin = userProfile?.is_admin || false;
 
         if (isAdmin) {
-            // Admin can see all appointments
             const { data: appointments, error } = await supabase
                 .from('appointments')
                 .select(`
@@ -84,7 +82,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             appointmentsList.innerHTML = appointmentsHtml;
             appointmentsContainer.appendChild(appointmentsList);
 
-            // Add event listeners for approve/reject buttons
             document.querySelectorAll('.approve').forEach(button => {
                 button.addEventListener('click', async (e) => {
                     const appointmentId = e.target.dataset.id;
@@ -99,14 +96,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                 });
             });
         } else {
-            // Normal users only see their own appointments
             const { data: appointments, error } = await supabase
                 .from('appointments')
                 .select(`
                     *,
                     clinics!appointments_clinic_id_fkey(name)
                 `)
-                .eq('user_id', userId) // Only fetch appointments for the logged-in user
+                .eq('user_id', userId)
                 .order('appointment_date', { ascending: true });
 
             if (error) {
@@ -152,7 +148,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-// Function to update the appointment status
 async function updateAppointmentStatus(appointmentId, status) {
     try {
         const { data, error } = await supabase
@@ -167,14 +162,19 @@ async function updateAppointmentStatus(appointmentId, status) {
         }
 
         displayMessage(`Appointment ${status} successfully!`);
-        window.location.reload(); // Reload to show updated status
+
+        setTimeout(() => {
+            popupOverlay.style.display = 'none';
+            popupBox.style.display = 'none';
+        }, 3000);
+        
+        window.location.reload(); 
     } catch (error) {
         console.error('Unexpected error:', error);
         displayMessage('An unexpected error occurred while updating the appointment status.');
     }
 }
 
-// Utility function to display popup messages
 function displayMessage(message) {
     const popupOverlay = document.getElementById('popup-overlay');
     const popupBox = document.getElementById('popup-box');
@@ -190,7 +190,6 @@ function displayMessage(message) {
     }, 3000);
 }
 
-// Utility function to format time in 24-hour format with seconds
 function formatTime(time) {
     const [hours, minutes, seconds] = time.split(':').map(Number);
     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
