@@ -4,15 +4,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     const appointmentsContainer = document.querySelector('.book-appointment');
 
     try {
-        // Fetch appointments with clinic name
+        // Get the current logged-in user
+        const user = supabase.auth.user();
+
+        if (!user) {
+            // If no user is logged in, show a message or redirect to login
+            displayMessage('Please log in to view your appointments.');
+            return;
+        }
+
+        // Fetch appointments for the specific user with clinic name
         const { data: appointments, error } = await supabase
             .from('appointments')
             .select(`
                 *,
                 clinics!appointments_clinic_id_fkey(name)
             `)
+            .eq('user_id', user.id)  // Filter by the user's ID
             .order('appointment_date', { ascending: true });
-
 
         if (error) {
             console.error('Error fetching appointments:', error);
@@ -21,7 +30,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         if (!appointments || appointments.length === 0) {
-            // Show 'No Booked Appointments' message if no data
+            // Show 'No Booked Appointments' message if no appointments are found
             const noBookElement = document.querySelector('.no-book');
             noBookElement.style.display = 'block';
             return;
@@ -52,6 +61,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         appointmentsList.className = 'appointments-list';
         appointmentsList.innerHTML = appointmentsHtml;
         appointmentsContainer.appendChild(appointmentsList);
+
     } catch (error) {
         console.error('Unexpected error:', error);
         displayMessage('An unexpected error occurred. Please try again.');
