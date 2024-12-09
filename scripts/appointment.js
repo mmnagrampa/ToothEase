@@ -182,7 +182,7 @@ function displayMessage(message) {
     setTimeout(() => {
         popupOverlay.style.display = 'none';
         popupBox.style.display = 'none';
-    }, 3000);
+    }, 5000);
 }
 
 function formatTime(time) {
