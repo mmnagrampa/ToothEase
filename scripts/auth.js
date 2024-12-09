@@ -73,12 +73,12 @@ signupForm.addEventListener('submit', async (e) => {
             return;
         }
 
-        const userId = signUpData.user.user_id;
+        const userId = signUpData.user.id; // Use the user_id returned from the auth sign-up process
 
         // Check if user already exists
         const { data: existingUser, error: fetchError } = await supabase
             .from('users')
-            .select('user_id')
+            .select('user_id') // Make sure you're using 'user_id' here
             .eq('user_id', userId)
             .single();
 
@@ -111,7 +111,6 @@ signupForm.addEventListener('submit', async (e) => {
         showMessagePopup('An unexpected error occurred. Please try again.', false);
     }
 });
-
 
 // Sign-In Form Event Listener
 const signinForm = document.querySelector('#signin-form');
