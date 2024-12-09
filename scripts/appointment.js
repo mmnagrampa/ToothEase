@@ -88,14 +88,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.querySelectorAll('.approve').forEach(button => {
                 button.addEventListener('click', async (e) => {
                     const appointmentId = e.target.dataset.id;
-                    await updateAppointmentStatus(appointmentId, 'confirmed');
+                    await updateAppointmentStatus(appointmentId, 'Confirmed');
                 });
             });
 
             document.querySelectorAll('.reject').forEach(button => {
                 button.addEventListener('click', async (e) => {
                     const appointmentId = e.target.dataset.id;
-                    await updateAppointmentStatus(appointmentId, 'cancelled');
+                    await updateAppointmentStatus(appointmentId, 'Cancelled');
                 });
             });
         } else {
