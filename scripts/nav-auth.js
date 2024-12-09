@@ -28,14 +28,24 @@ function showMessagePopup(message, reload = false, redirectUrl = null) {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
-    const { data: { session }, error } = await supabase.auth.getSession();
-    if (error) {
-        console.error('Error retrieving session:', error.message);
-    }
+    try {
+        const { data: { session }, error } = await supabase.auth.getSession();
 
-    const user = session?.user;
+        if (error) {
+            console.error('Error retrieving session:', error.message);
+            showMessagePopup('Error retrieving session. Please try again.');
+            return;
+        }
 
-    if (user) {
+        const user = session?.user;
+
+        // Check if user exists
+        if (!user || !user.user_id) {
+            console.log("No user session found or user_id is missing.");
+            showMessagePopup('No user session found. Please log in.');
+            return;
+        }
+
         console.log('User info:', user);
         const userID = user.user_id;
 
@@ -48,6 +58,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         if (fetchError) {
             console.error('Error fetching user data:', fetchError.message);
+            showMessagePopup('Error fetching user data. Please try again.');
             return;
         }
 
@@ -55,8 +66,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             const welcome = document.getElementById('welcome-message');
             welcome.innerText = `Welcome, ${userData.name}!`;
         }
-    } else {
-        console.log("No user session found.");
+    } catch (err) {
+        console.error('Unexpected error:', err);
+        showMessagePopup('An unexpected error occurred. Please try again.');
     }
 });
 
@@ -68,6 +80,7 @@ logout.addEventListener('click', async (e) => {
 
     if (error) {
         console.error('Error during logout:', error.message);
+        showMessagePopup('Error logging out. Please try again.');
     } else {
         showMessagePopup('User successfully signed out!', false, '../index.html');
     }
