@@ -281,7 +281,7 @@ document.getElementById("submit-appointment").addEventListener("click", async fu
         service: service,
         appointment_date: appointmentDate,
         appointment_time: appointmentTime,
-        status: 'pending',
+        status: 'Pending Confirmation',
     };
 
     console.log('Payload for appointment:', appointmentData);
