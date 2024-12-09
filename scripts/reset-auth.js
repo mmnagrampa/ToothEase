@@ -1,5 +1,4 @@
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.19.0/+esm';
-
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0/+esm';
 
 // Supabase credentials
 const supabaseUrl = 'https://ucspfnzhoepaxvpigvfm.supabase.co';
@@ -62,20 +61,32 @@ resetSubmit.addEventListener('click', async (e) => {
     }
 
     try {
-        // Use the access_token directly to reset the password
-        const { data, error } = await supabase.auth.verifyOTP({
-            type: 'recovery',
-            token: accessToken, // The access token from the URL
-            password: newPassword, // The new password to set
-        });        
+       
+        const { data, error: verifyError } = await supabase.auth.verifyOTP({
+            type: 'email', // Type should be 'email' for password reset
+            token: accessToken, // The token from the URL
+        });
 
-        if (error) {
-            console.error('Error resetting password:', error);
+        if (verifyError) {
+            console.error('Error verifying OTP:', verifyError);
+            showMessagePopup('Invalid or expired token. Please try again.');
+            return;
+        }
+
+        console.log('OTP verified successfully:', data);
+
+        const { user, error: updateError } = await supabase.auth.updateUser({
+            password: newPassword, // The new password
+        });
+
+        if (updateError) {
+            console.error('Error updating password:', updateError);
             showMessagePopup('Error resetting password. Please try again.');
         } else {
-            console.log('Password reset successful:', data);
+            console.log('Password updated successfully:', user);
             showMessagePopup('Password has been reset successfully!', '../index.html');
         }
+
     } catch (error) {
         console.error('Unexpected error during password reset:', error);
         showMessagePopup('An unexpected error occurred. Please try again.', '../index.html');
