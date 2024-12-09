@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 *,
                 clinics!appointments_clinic_id_fkey(name)
             `)
-            .eq('user_id', user.id)  // Filter by the user's ID
+            .eq('user_id', user.user_id)  // Filter by the user's ID
             .order('appointment_date', { ascending: true });
 
         if (error) {
