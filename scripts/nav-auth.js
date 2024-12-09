@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         const { data: userData, error: fetchError } = await supabase
             .from('users')
-            .select('name')
+            .select('name, is_admin')
             .eq('user_id', userID)
             .single();
 
@@ -61,7 +61,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         if (userData) {
             const welcome = document.getElementById('welcome-message');
-            welcome.innerText = `Welcome, ${userData.name}!`;
+            if (userData.is_admin) {
+                welcome.innerText = `Welcome, Admin ${userData.name}!`;
+            } else {
+                welcome.innerText = `Welcome, ${userData.name}!`;
+            }
         }
     } catch (err) {
         console.error('Unexpected error:', err);
