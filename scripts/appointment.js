@@ -161,14 +161,9 @@ async function updateAppointmentStatus(appointmentId, status) {
             return;
         }
 
-        displayMessage(`Appointment ${status} successfully!`);
-
-        setTimeout(() => {
-            popupOverlay.style.display = 'none';
-            popupBox.style.display = 'none';
-        }, 3000);
-        
+        displayMessage(`Appointment ${status} successfully!`);    
         window.location.reload(); 
+        
     } catch (error) {
         console.error('Unexpected error:', error);
         displayMessage('An unexpected error occurred while updating the appointment status.');
