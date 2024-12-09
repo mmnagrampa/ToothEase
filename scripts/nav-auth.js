@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const { data: userData, error: fetchError } = await supabase
             .from('users')
             .select('name')
-            .eq('id', userID)
+            .eq('user_id', userID)
             .single();
 
         if (fetchError) {
