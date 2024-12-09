@@ -5,11 +5,11 @@ const supabaseUrl = 'https://ucspfnzhoepaxvpigvfm.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVjc3Bmbnpob2VwYXh2cGlndmZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzI2MzU4MDcsImV4cCI6MjA0ODIxMTgwN30.iw7m3PDLJByvFGZTXsmbEDPxkP28_RYkNh9egJ5BXY4'; // Replace with your Supabase anon key
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-// Extract the reset token from the URL
 const urlParams = new URLSearchParams(window.location.search);
-const accessToken = urlParams.get('access_token'); // Use `access_token` from the URL
+const accessToken = urlParams.get('access_token'); // Get access_token from the URL
+const email = urlParams.get('email'); // Get email from the URL
 console.log('Access Token:', accessToken); // Debugging
-console.log('Email:', email); 
+console.log('Email:', email); // Debugging
 
 // Function to display messages
 function showMessagePopup(message, redirectUrl = null) {
