@@ -73,13 +73,13 @@ signupForm.addEventListener('submit', async (e) => {
             return;
         }
 
-        const userId = signUpData.user.id;
+        const userId = signUpData.user.user_id;
 
         // Check if user already exists
         const { data: existingUser, error: fetchError } = await supabase
             .from('users')
-            .select('id')
-            .eq('id', userId)
+            .select('user_id')
+            .eq('user_id', userId)
             .single();
 
         if (fetchError && fetchError.code !== 'PGRST116') { // Ignore "row not found" errors
@@ -92,7 +92,7 @@ signupForm.addEventListener('submit', async (e) => {
         if (!existingUser) {
             const { data: insertData, error: insertError } = await supabase
                 .from('users')
-                .insert([{ id: userId, name, email }]);
+                .insert([{ user_id: userId, name, email }]);
 
             if (insertError) {
                 console.error('Insert Error:', insertError.message);
