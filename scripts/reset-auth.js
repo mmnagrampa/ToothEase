@@ -61,10 +61,11 @@ resetSubmit.addEventListener('click', async (e) => {
     }
 
    try {
-        // Step 1: Use verifyOtp to verify the token
+
         const { data: verifyData, error: verifyError } = await supabase.auth.verifyOtp({
             token: accessToken, // Token from the URL
-            type: 'email', // 'email' for password reset
+            type: 'email', // Type is 'email' for password reset
+            email: email, // The email address associated with the OTP
         });
 
         if (verifyError) {
