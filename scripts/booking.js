@@ -33,7 +33,7 @@ async function populateClinicsDropdown() {
 
     try {
         // Get clinics from Supabase database
-        const { data, error } = await supabase.from('clinics').select('id, name');
+        const { data, error } = await supabase.from('clinics').select('clinic_id, name');
         if (error) {
             console.error('Error fetching clinics:', error);
             return;
@@ -46,7 +46,7 @@ async function populateClinicsDropdown() {
             // Populate dropdown with clinics
             data.forEach((clinic) => {
                 const option = document.createElement("option");
-                option.value = clinic.id;
+                option.value = clinic.clinic_id;
                 option.textContent = clinic.name;
                 clinicsDropdown.appendChild(option);
             });
@@ -114,7 +114,7 @@ document.getElementById("clinics").addEventListener("change", async function () 
             const { data, error } = await supabase
                 .from('clinics')
                 .select('services, schedule') // Fetch services and schedule data
-                .eq('id', selectedClinicId)
+                .eq('clinic_id', selectedClinicId)
                 .single();
 
             if (error) {
@@ -159,7 +159,7 @@ document.getElementById("appointment-date").addEventListener("change", async fun
             const { data, error } = await supabase
                 .from('clinics')
                 .select('schedule') // Fetch only schedule data
-                .eq('id', selectedClinicId)
+                .eq('clinic_id', selectedClinicId)
                 .single();
 
             if (error) {
