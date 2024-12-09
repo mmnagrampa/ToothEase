@@ -4,8 +4,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     const appointmentsContainer = document.querySelector('.book-appointment');
 
     try {
-        // Get the current logged-in user
-        const user = supabase.auth.user();
+        // Get the current logged-in user using `getUser`
+        const { data: user, error: userError } = await supabase.auth.getUser();
+
+        if (userError) {
+            console.error('Error fetching user:', userError);
+            displayMessage('Error fetching user data. Please try again.');
+            return;
+        }
 
         if (!user) {
             // If no user is logged in, show a message or redirect to login
