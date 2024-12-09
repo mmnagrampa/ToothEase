@@ -2,7 +2,7 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 
 // Supabase credentials
 const supabaseUrl = 'https://ucspfnzhoepaxvpigvfm.supabase.co';
-const supabaseKey = 'YOUR_SUPABASE_ANON_KEY'; // Replace with your Supabase anon key
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVjc3Bmbnpob2VwYXh2cGlndmZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzI2MzU4MDcsImV4cCI6MjA0ODIxMTgwN30.iw7m3PDLJByvFGZTXsmbEDPxkP28_RYkNh9egJ5BXY4'; // Replace with your Supabase anon key
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Extract the reset token from the URL
@@ -60,11 +60,11 @@ resetSubmit.addEventListener('click', async (e) => {
         return;
     }
 
-    try {
-       
-        const { data, error: verifyError } = await supabase.auth.verifyOTP({
-            type: 'email', // Type should be 'email' for password reset
-            token: accessToken, // The token from the URL
+   try {
+        // Step 1: Use verifyOtp to verify the token
+        const { data: verifyData, error: verifyError } = await supabase.auth.verifyOtp({
+            token: accessToken, // Token from the URL
+            type: 'email', // 'email' for password reset
         });
 
         if (verifyError) {
@@ -73,10 +73,11 @@ resetSubmit.addEventListener('click', async (e) => {
             return;
         }
 
-        console.log('OTP verified successfully:', data);
+        console.log('OTP verified successfully:', verifyData);
 
+        // Step 2: Update the user's password after OTP verification
         const { user, error: updateError } = await supabase.auth.updateUser({
-            password: newPassword, // The new password
+            password: newPassword, // The new password entered by the user
         });
 
         if (updateError) {
