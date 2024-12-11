@@ -1,17 +1,15 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0/+esm';
 
-// Supabase credentials
 const supabaseUrl = 'https://ucspfnzhoepaxvpigvfm.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVjc3Bmbnpob2VwYXh2cGlndmZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzI2MzU4MDcsImV4cCI6MjA0ODIxMTgwN30.iw7m3PDLJByvFGZTXsmbEDPxkP28_RYkNh9egJ5BXY4'; // Replace with your Supabase anon key
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 const urlParams = new URLSearchParams(window.location.search);
-const accessToken = urlParams.get('access_token'); // Get access_token from the URL
-const email = urlParams.get('email'); // Get email from the URL
-console.log('Access Token:', accessToken); // Debugging
-console.log('Email:', email); // Debugging
+const accessToken = urlParams.get('access_token'); 
+const email = urlParams.get('email'); 
+console.log('Access Token:', accessToken); 
+console.log('Email:', email); 
 
-// Function to display messages
 function showMessagePopup(message, redirectUrl = null) {
     const overlay = document.getElementById('popup-overlay');
     const popupBox = document.getElementById('popup-box');
@@ -30,7 +28,6 @@ function showMessagePopup(message, redirectUrl = null) {
     }, 3000);
 }
 
-// Function to validate password and confirmation
 function validate() {
     const password = document.getElementById('signup-password').value;
     const confirmPassword = document.getElementById('confirm-password').value;
@@ -39,19 +36,17 @@ function validate() {
         message.hidden = false;
         message.style.color = 'red';
         message.innerHTML = 'Passwords do not match';
-        return false; // Prevents further processing
+        return false; 
     } else {
         message.hidden = true;
         return true;
     }
 }
 
-// Submit button event listener
 const resetSubmit = document.getElementById('submit');
 resetSubmit.addEventListener('click', async (e) => {
     e.preventDefault();
 
-    // Validate the password confirmation
     if (!validate()) return;
 
     const newPassword = document.getElementById('signup-password').value;
@@ -64,9 +59,9 @@ resetSubmit.addEventListener('click', async (e) => {
    try {
 
         const { data: verifyData, error: verifyError } = await supabase.auth.verifyOtp({
-            token: accessToken, // Token from the URL
-            type: 'email', // Type is 'email' for password reset
-            email: email, // The email address associated with the OTP
+            token: accessToken, 
+            type: 'email', 
+            email: email,
         });
 
         if (verifyError) {
@@ -77,9 +72,8 @@ resetSubmit.addEventListener('click', async (e) => {
 
         console.log('OTP verified successfully:', verifyData);
 
-        // Step 2: Update the user's password after OTP verification
         const { user, error: updateError } = await supabase.auth.updateUser({
-            password: newPassword, // The new password entered by the user
+            password: newPassword, 
         });
 
         if (updateError) {
