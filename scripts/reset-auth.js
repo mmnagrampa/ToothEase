@@ -85,10 +85,6 @@ resetSubmit.addEventListener('click', async (e) => {
         if (updateError) {
             console.error('Error updating password:', updateError);
             showMessagePopup('Error resetting password. Please try again.');
-        } 
-        if (updateError.includes('New password should be different from the old password')) {
-            showMessagePopup('The new password cannot be the same as the old password. Please choose a different password.');
-            e.preventDefault();
         } else {
             console.log('Password updated successfully:', user);
             showMessagePopup('Password has been reset successfully!', '../index.html');
