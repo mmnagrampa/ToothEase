@@ -47,6 +47,7 @@ const resetSubmit = document.getElementById('submit');
 resetSubmit.addEventListener('click', async (e) => {
     e.preventDefault();
 
+    // Validate the password confirmation
     if (!validate()) return;
 
     const newPassword = document.getElementById('signup-password').value;
@@ -56,25 +57,6 @@ resetSubmit.addEventListener('click', async (e) => {
         return;
     }
 
-   try {
-
-        const { data: verifyData, error: verifyError } = await supabase.auth.verifyOtp({
-            token: accessToken, 
-            type: 'email', 
-            email: email, 
-        });
-
-        if (verifyError) {
-            console.error('Error verifying OTP:', verifyError);
-            showMessagePopup('Invalid or expired token. Please try again.');
-            return;
-        }
-
-        console.log('OTP verified successfully:', verifyData);
-
-        const { user, error: updateError } = await supabase.auth.updateUser({
-            password: newPassword, 
-        });
     try {
         // Use the access_token directly to reset the password
         const { data, error } = await supabase.auth.verifyOTP({
@@ -82,14 +64,6 @@ resetSubmit.addEventListener('click', async (e) => {
             token: accessToken, // The access token from the URL
             password: newPassword, // The new password to set
         });
-
-        if (updateError) {
-            console.error('Error updating password:', updateError);
-            showMessagePopup('Error resetting password. Please try again.');
-        } else {
-            console.log('Password updated successfully:', user);
-            showMessagePopup('Password has been reset successfully!', '../index.html');
-        }
 
         if (error) {
             console.error('Error resetting password:', error);
