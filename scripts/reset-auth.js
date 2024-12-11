@@ -56,44 +56,21 @@ resetSubmit.addEventListener('click', async (e) => {
         return;
     }
 
-   try {
+    try {
+        // Use the access_token directly to reset the password
+        const { data, error } = await supabase.auth.verifyOTP({
+            type: 'recovery',
+            token: accessToken, // The access token from the URL
+            password: newPassword, // The new password to set
+        });        
 
-        const { data: verifyData, error: verifyError } = await supabase.auth.verifyOtp({
-            token: accessToken, 
-            type: 'email', 
-            email: email, 
-        });
-
-        if (verifyError) {
-            console.error('Error verifying OTP:', verifyError);
-            showMessagePopup('Invalid or expired token. Please try again.');
-            return;
-        }
-
-        console.log('OTP verified successfully:', verifyData);
-
-        const { user, error: updateError } = await supabase.auth.updateUser({
-            password: newPassword, 
-        });
-
-        if (updateError) {
+        if (error) {
             console.error('Error resetting password:', error);
-
-            // Check for specific error about reusing the same password
-            if (error.message.includes('New password should be different from the old password')) {
-                showMessagePopup('The new password cannot be the same as the old password. Please choose a different password.');
-            } else {
-                showMessagePopup('Error resetting password. Please try again.');
-            }
-
-            // Prevent further processing due to error
-            return; // Exit the function early
+            showMessagePopup('Error resetting password. Please try again.');
+        } else {
+            console.log('Password reset successful:', data);
+            showMessagePopup('Password has been reset successfully!', '../index.html');
         }
-
-        // If no error, proceed to success handling
-        console.log('Password reset successful:', data);
-        showMessagePopup('Password has been reset successfully!', '../index.html');
-
     } catch (error) {
         console.error('Unexpected error during password reset:', error);
         showMessagePopup('An unexpected error occurred. Please try again.', '../index.html');
