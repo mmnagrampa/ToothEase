@@ -47,7 +47,6 @@ const resetSubmit = document.getElementById('submit');
 resetSubmit.addEventListener('click', async (e) => {
     e.preventDefault();
 
-    // Validate the password confirmation
     if (!validate()) return;
 
     const newPassword = document.getElementById('signup-password').value;
@@ -57,15 +56,27 @@ resetSubmit.addEventListener('click', async (e) => {
         return;
     }
 
-    try {
-        // Use the access_token directly to reset the password
-        const { data, error } = await supabase.auth.verifyOTP({
-            type: 'recovery',
-            token: accessToken, // The access token from the URL
-            password: newPassword, // The new password to set
+   try {
+
+        const { data: verifyData, error: verifyError } = await supabase.auth.verifyOtp({
+            token: accessToken, 
+            type: 'email', 
+            email: email, 
         });
 
-        if (error) {
+        if (verifyError) {
+            console.error('Error verifying OTP:', verifyError);
+            showMessagePopup('Invalid or expired token. Please try again.');
+            return;
+        }
+
+        console.log('OTP verified successfully:', verifyData);
+
+        const { user, error: updateError } = await supabase.auth.updateUser({
+            password: newPassword, 
+        });
+
+        if (updateError) {
             console.error('Error resetting password:', error);
 
             // Check for specific error about reusing the same password
