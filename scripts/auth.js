@@ -1,6 +1,5 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0/+esm';
 
-// Supabase credentials
 const supabaseUrl = 'https://ucspfnzhoepaxvpigvfm.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVjc3Bmbnpob2VwYXh2cGlndmZtIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTczMjYzNTgwNywiZXhwIjoyMDQ4MjExODA3fQ.nVge6wNQ9SR6seed-nPp8PYchdttzcSlUrogwd2m-qU';
 const supabase = createClient(supabaseUrl, supabaseKey);
@@ -14,10 +13,10 @@ function validate(event) {
         message.style.color = 'red';
         message.innerHTML = 'Passwords do not match';
         event.preventDefault();
-        return false; // Prevent form submission
+        return false; 
     } else {
         message.hidden = true;
-        return true; // Allow form submission
+        return true; 
     }
 }
 
@@ -34,12 +33,11 @@ function showMessagePopup(message, reload = false) {
         overlay.style.display = 'none';
         popupBox.style.display = 'none';
         if (reload) {
-            window.location.reload();  // Reload the page after successful signup
+            window.location.reload(); 
         }
     }, 3000);
 }
 
-// Signup Form Event Listener
 const signupForm = document.querySelector('#signup-form');
 signupForm.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -48,11 +46,9 @@ signupForm.addEventListener('submit', async (e) => {
     const email = signupForm['signup-email'].value;
     const password = signupForm['signup-password'].value;
 
-    // Validate the form
     const isValid = validate(e);
     if (!isValid) return;
 
-    // Validate email and password
     if (!email || !password || password.length < 6) {
         showMessagePopup("Invalid email or password", false);
         return;
@@ -75,24 +71,22 @@ signupForm.addEventListener('submit', async (e) => {
 
         const userId = signUpData.user.id;
 
-        // Check if user already exists
         const { data: existingUser, error: fetchError } = await supabase
             .from('users')
-            .select('id')
-            .eq('id', userId)
+            .select('user_id') 
+            .eq('user_id', userId) 
             .single();
 
-        if (fetchError && fetchError.code !== 'PGRST116') { // Ignore "row not found" errors
+        if (fetchError && fetchError.code !== 'PGRST116') { 
             console.error('Fetch Error:', fetchError.message);
             showMessagePopup('Error checking user existence. Please try again.', false);
             return;
         }
 
-        // Insert user data if not exists
         if (!existingUser) {
             const { data: insertData, error: insertError } = await supabase
                 .from('users')
-                .insert([{ id: userId, name, email }]);
+                .insert([{ user_id: userId, name, email }]);
 
             if (insertError) {
                 console.error('Insert Error:', insertError.message);
@@ -112,35 +106,41 @@ signupForm.addEventListener('submit', async (e) => {
     }
 });
 
-
-// Sign-In Form Event Listener
 const signinForm = document.querySelector('#signin-form');
-signinForm.addEventListener('submit', (e) => {
+signinForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const email = signinForm['signin-email'].value;
     const password = signinForm['signin-password'].value;
 
-    supabase.auth.signInWithPassword({ email, password })
-        .then(({ user, error }) => {
-            if (error) {
-                const signInMessage = document.getElementById('error-message');
-                signInMessage.hidden = false;
-                signInMessage.style.color = 'red';
-                signInMessage.innerHTML = 'Incorrect email or password!';
-                e.preventDefault();
-                return;
-            }
+    try {
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
-            console.log('User logged in:', user);
-            showMessagePopup('User logged in successfully!', false);
+        if (error) {
+            console.error('Sign-in error:', error.message);
+            const signInMessage = document.getElementById('error-message');
+            signInMessage.hidden = false;
+            signInMessage.style.color = 'red';
+            signInMessage.innerHTML = 'Incorrect email or password!';
+            return;
+        }
+        
+        const user = data?.user;
 
-            setTimeout(() => {
-                window.location.href = './views/homepage.html';
-            }, 3000);
-        })
-        .catch((error) => {
-            console.error("Error signing in: ", error);
+        if (!user || !user.id) {
+            console.error("No user ID found in sign-in response:", { user });
             showMessagePopup('Error signing in. Please try again.', false);
-        });
+            return;
+        }
+
+        console.log('User logged in:', user);
+        showMessagePopup('User logged in successfully!', false);
+
+        setTimeout(() => {
+            window.location.href = './views/homepage.html';
+        }, 3000);
+    } catch (error) {
+        console.error("Unexpected error signing in: ", error.message);
+        showMessagePopup('Error signing in. Please try again.', false);
+    }
 });

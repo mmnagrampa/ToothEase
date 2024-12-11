@@ -32,7 +32,7 @@ forgotPass.addEventListener('click', async (e) => {
 
     try {
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
-            redirectTo: 'https://toothease.vercel.app/views/resetpassword.html' 
+            redirectTo: 'https://toothease.vercel.app/views/resetpassword.html'
         });
 
         if (error) {
