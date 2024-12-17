@@ -29,7 +29,7 @@ body {
 }
 
 .book-appointment {
-    margin: auto;
+    margin: 20px auto auto auto;
     width: 40%;
     display: flex;
     justify-content: center;
@@ -40,8 +40,9 @@ body {
     border-radius: 20px;
 }
 
-.title {
-    padding-top: 40px;
+.title > h2 {
+    margin-top: 100px;
+    text-align: center;
 }
 
 .no-book {
@@ -106,7 +107,7 @@ body {
 .footer-logo img {
     height: 90px;
     width: 95px;
-    margin-right: 10px; /
+    margin-right: 10px; 
 }
 
 .footer-links h1 {
@@ -128,6 +129,45 @@ body {
 .footer-credits {
     text-align: right;
     font-size: 17px;
+}
+
+.approve {
+    cursor: pointer;
+    border: 0px solid transparent;
+    padding: 10px 15px;
+    background-color: #4ECB69;
+    color: black;
+    border-radius: 5px;
+    font-weight: 500;
+    transition: all 0.5s ease;
+}
+
+.approve:hover {
+    box-shadow: 2px 2px 10px 0.1px #398549;
+}
+
+.reject {
+    cursor: pointer;
+    border: 0px solid transparent;
+    padding: 10px 15px;
+    background-color: #D22023;
+    color: white;
+    border-radius: 5px;
+    font-weight: 500;
+    transition: all 0.5s ease;
+}
+
+.reject:hover {
+    box-shadow: 2px 2px 10px 0.1px #A0393B;
+}
+
+.edit {
+    cursor: pointer;
+    border: 1px solid #ccc;
+    padding: 10px 15px;
+    color: black;
+    border-radius: 5px;
+    font-weight: 500;
 }
 
 #popup-overlay {
