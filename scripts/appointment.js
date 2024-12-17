@@ -101,7 +101,7 @@ function renderAppointments(appointments, isAdmin) {
                 statusColor = 'red';
                 break;
             case 'Pending Confirmation':
-                statusColor = 'yellow';
+                statusColor = 'orange';
                 break;
             default:
                 statusColor = 'black'; // Default color for unknown status
@@ -206,7 +206,7 @@ function changeStatusColor(statusElement, status) {
             statusElement.style.color = 'red';
             break;
         case 'Pending Confirmation':
-            statusElement.style.color = 'yellow';
+            statusElement.style.color = 'orange';
             break;
         default:
             statusElement.style.color = 'black';
